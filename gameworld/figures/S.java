@@ -19,6 +19,7 @@ public class S implements IFigure{
     public boolean getIsDone(){
         return isDone;
     }
+
     public int getColor(){return color;}
 
     public TetrisPoint[] getCells(){

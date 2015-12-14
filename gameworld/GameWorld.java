@@ -55,22 +55,22 @@ public class GameWorld {
                 curFigure = new T(bmap,1);
                 break;
             case 2:
-                curFigure = new Q(bmap,1);
+                curFigure = new Q(bmap,2);
                 break;
             case 3:
-                curFigure = new J(bmap,1);
+                curFigure = new J(bmap,3);
                 break;
             case 4:
-                curFigure = new L(bmap,1);
+                curFigure = new L(bmap,4);
                 break;
             case 5:
-                curFigure = new S(bmap,1);
+                curFigure = new S(bmap,5);
                 break;
             case 6:
-                curFigure = new Z(bmap,1);
+                curFigure = new Z(bmap,6);
                 break;
             case 0:
-                curFigure = new I(bmap,1);
+                curFigure = new I(bmap,7);
                 break;
         }
     }
@@ -99,6 +99,25 @@ public class GameWorld {
                         break;
                     case 1:
                         map[i][j].setColor(Color.RED);
+                        break;
+                    case 2:
+                        map[i][j].setColor(Color.GREEN);
+                        break;
+                    case 3:
+                        map[i][j].setColor(Color.BLUE);
+                        break;
+                    case 4:
+                        map[i][j].setColor(Color.YELLOW);
+                        break;
+                    case 5:
+                        map[i][j].setColor(Color.CORAL);
+                        break;
+                    case 6:
+                        map[i][j].setColor(Color.CYAN);
+                        break;
+                    case 7:
+                        map[i][j].setColor(Color.VIOLET);
+                        break;
                 }
 
             }
