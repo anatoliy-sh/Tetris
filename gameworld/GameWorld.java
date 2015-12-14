@@ -3,10 +3,10 @@ package pi4.gameworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import pi4.gameworld.figures.Q;
+import pi4.gameworld.figures.*;
 
 /**
- * Created by �������� on 12.12.2015.
+ * Created by �������� on 12.12.2015.
  */
 public class GameWorld {
     public static final int CountCellX = 10;
@@ -27,7 +27,7 @@ public class GameWorld {
         map = new Cell[CountCellX][CountCellY];
         bmap = new int[CountCellX][CountCellY];
         createMap();
-        curFigure =new Q(bmap,1);
+        curFigure =new L(bmap,6);
         time = 0;
     }
 
@@ -42,19 +42,19 @@ public class GameWorld {
     public void update(float delta) {
         time+=delta;
         //Gdx.app.log("GameWorld", "update"+time);
-        //���
+        //��� 
         if(time > 0.5 ) {
             curFigure.clearPastPosition();
             curFigure.update(delta);
             for(int i = 0; i< 4; i++) {
-                bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor();
+                bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor(); //
             }
-            //��������� ������
-            if(curFigure.getIsDone())
-                curFigure = new Q(bmap,1);
+            //��������� ������
+            if(curFigure.getIsDone()) //упала ли фигура
+                curFigure = new L(bmap,6); //создание новой фигуры (падает следующая)
             time = 0;
         }
-        for (int i = 0; i < CountCellX; i++)
+        for (int i = 0; i < CountCellX; i++) //обновление мапы
             for (int j = 0; j < CountCellY; j++){
                 switch (bmap[i][j]) {
                     case 0:
@@ -62,6 +62,16 @@ public class GameWorld {
                         break;
                     case 1:
                         map[i][j].setColor(Color.RED);
+                    case 2:
+                        map[i][j].setColor(Color.GREEN);
+                    case 3:
+                        map[i][j].setColor(Color.BLUE);
+                    case 4:
+                        map[i][j].setColor(Color.YELLOW);
+                    case 5:
+                        map[i][j].setColor(Color.PURPLE);
+                    case 6:
+                        map[i][j].setColor(Color.BROWN);
                 }
 
             }

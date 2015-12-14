@@ -10,7 +10,7 @@ import pi4.gameworld.IFigure;
 import pi4.tetris.Tetris;
 
 /**
- * Created by �������� on 13.12.2015.
+ * Created by �������� on 13.12.2015.
  */
 public class Q implements IFigure{
     private TetrisPoint[] cells;
@@ -33,56 +33,56 @@ public class Q implements IFigure{
         cells = new TetrisPoint[4];
         this.bmap = bmap;
         this.color = color;
-        isDone = false;
+        isDone = false; //упала ли она
         fullCells();
         bias = 0;
     }
-    //��������� �������
-    private void fullCells(){
+    //��������� �������
+    private void fullCells(){ //формировка фигуры
         cells[0] = new TetrisPoint(4,0);
         cells[1] = new TetrisPoint(5,0);
         cells[2] = new TetrisPoint(4,1);
         cells[3] = new TetrisPoint(5,1);
     }
-    //��������� �������
+    //��������� �������
     public void update(float delta){
         moveDown();
     }
 
-    private void moveDown(){
-        if(!checkNextYMove()) {
+    private void moveDown(){ //движение вниз
+        if(!checkNextYMove()) { //валидность Y координаты
             for (int i = 0; i < 4; i++) {
                 cells[i].setY(cells[i].getY() + 1);
             }
         }
-        if(!checkNextXMove()) {
+        if(!checkNextXMove()) { //валидность Х координаты
             for (int i = 0; i < 4; i++) {
                 cells[i].setX(cells[i].getX() + bias);
             }
         }
         bias = 0;
     }
-    //�������� ��
+    //�������� ��
     public boolean checkNextYMove(){
-        for(int i = 2; i< 4; i++) {
-            if(cells[i].getY()+1 >= GameWorld.CountCellY)
+        for(int i = 2; i< 4; i++) { //проверяется днище
+            if(cells[i].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
                 isDone = true;
             if (!isDone)
-                isDone = bmap[cells[i].getX()][cells[i].getY()+1] != 0;
+                isDone = bmap[cells[i].getX()][cells[i].getY()+1] != 0; //не налезла ли на другие фигуры
         }
         return isDone;
     }
     public boolean checkNextXMove(){
         boolean flag = false;
         int start = 0,end = 0;
-        switch (bias){
+        switch (bias){ //bias показывает, куда нажал пользователь, вправо или влево
             case 1:
-                start = 1;
+                start = 2;
                 end = 3;
                 break;
             case -1:
                 start = 0;
-                end = 2;
+                end = 3;
                 break;
         }
         for(int i = start; i<= end; i+=2) {
