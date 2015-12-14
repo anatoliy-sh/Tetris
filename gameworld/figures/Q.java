@@ -112,9 +112,6 @@ public class Q implements IFigure{
                 case 20:
                     down = true;
                     break;
-                case 62:
-                    rotate();
-                    break;
             }
         }
     }

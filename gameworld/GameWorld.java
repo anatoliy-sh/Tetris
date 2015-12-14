@@ -35,6 +35,7 @@ public class GameWorld {
         map = new Cell[CountCellX][CountCellY];
         bmap = new int[CountCellX][CountCellY];
         createMap();
+        //curFigure = new T(bmap,1);
         randomFigure();
         time = 0;
     }
@@ -86,6 +87,7 @@ public class GameWorld {
             }
             //��������� ������
             if(curFigure.getIsDone())
+                //curFigure = new Z(bmap,1);
                 randomFigure();
             time = 0;
         }

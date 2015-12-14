@@ -12,6 +12,7 @@ public class T implements IFigure{
     private boolean isDone;
     private int bias;
     private boolean down;
+    private boolean rotate;
 
     private int color;
 
@@ -46,10 +47,15 @@ public class T implements IFigure{
 
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
-            if (down){
-                while (!checkNextYMove()) {
-                    for (int i = 0; i < 4; i++) {
-                        cells[i].setY(cells[i].getY() + 1);
+            if (rotate || down) {
+                if (rotate) {
+                    rotate();
+                }
+                if (down) {
+                    while (!checkNextYMove()) {
+                        for (int i = 0; i < 4; i++) {
+                            cells[i].setY(cells[i].getY() + 1);
+                        }
                     }
                 }
             }
@@ -70,13 +76,14 @@ public class T implements IFigure{
     //�������� ��
     public boolean checkNextYMove(){
         //for(int i = 2; i< 4; i++)  //проверяется днище
-            if(cells[3].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
+            if(cells[3].getY()+1 >= GameWorld.CountCellY
+                    || cells[2].getY()+1 >= GameWorld.CountCellY
+                    || cells[0].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
                 isDone = true;
             if (!isDone) {
                 isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
                 isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
                 isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;
-
             }
 
         return isDone;
@@ -126,7 +133,7 @@ public class T implements IFigure{
                     down = true;
                     break;
                 case 62:
-                    rotate();
+                    rotate = true;
                     break;
             }
 
@@ -139,6 +146,41 @@ public class T implements IFigure{
     }
 
     public void rotate() {
-
+        if(cells[2].getY()==cells[1].getY() && cells[2].getX()-cells[1].getX() > 0  && rotate) {
+            cells[0].setX(cells[0].getX() + 1);
+            cells[0].setY(cells[0].getY() - 1);
+            cells[2].setX(cells[2].getX() - 1);
+            cells[2].setY(cells[2].getY() + 1);
+            cells[3].setX(cells[3].getX() - 1);
+            cells[3].setY(cells[3].getY() - 1);
+            rotate = false;
+        }
+        if(cells[2].getX()==cells[1].getX() && cells[1].getX()-cells[3].getX() > 0 && rotate) {
+            cells[0].setX(cells[0].getX() + 1);
+            cells[0].setY(cells[0].getY() + 1);
+            cells[2].setX(cells[2].getX() - 1);
+            cells[2].setY(cells[2].getY() - 1);
+            cells[3].setX(cells[3].getX() + 1);
+            cells[3].setY(cells[3].getY() - 1);
+            rotate = false;
+        }
+        if(cells[2].getY()==cells[2].getY() && cells[2].getX()-cells[1].getX() < 0 && rotate) {
+            cells[0].setX(cells[0].getX() - 1);
+            cells[0].setY(cells[0].getY() + 1);
+            cells[2].setX(cells[2].getX() + 1);
+            cells[2].setY(cells[2].getY() - 1);
+            cells[3].setX(cells[3].getX() + 1);
+            cells[3].setY(cells[3].getY() + 1);
+            rotate = false;
+        }
+        if(cells[2].getX()==cells[1].getX() && cells[1].getX()-cells[3].getX() < 0 && rotate) {
+            cells[0].setX(cells[0].getX() - 1);
+            cells[0].setY(cells[0].getY() - 1);
+            cells[2].setX(cells[2].getX() + 1);
+            cells[2].setY(cells[2].getY() + 1);
+            cells[3].setX(cells[3].getX() - 1);
+            cells[3].setY(cells[3].getY() + 1);
+            rotate = false;
+        }
     }
 }

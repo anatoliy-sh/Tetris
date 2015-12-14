@@ -11,6 +11,7 @@ public class I implements IFigure{
     private boolean isDone;
     private int bias;
     private boolean down;
+    private boolean rotate;
 
     private int color;
 
@@ -45,10 +46,15 @@ public class I implements IFigure{
 
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
-            if (down){
-                while (!checkNextYMove()) {
-                    for (int i = 0; i < 4; i++) {
-                        cells[i].setY(cells[i].getY() + 1);
+            if (rotate || down) {
+                if (rotate) {
+                    rotate();
+                }
+                if (down) {
+                    while (!checkNextYMove()) {
+                        for (int i = 0; i < 4; i++) {
+                            cells[i].setY(cells[i].getY() + 1);
+                        }
                     }
                 }
             }
@@ -69,7 +75,8 @@ public class I implements IFigure{
     //�������� ��
     public boolean checkNextYMove(){
         //for(int i = 2; i< 4; i++)  //проверяется днище
-        if(cells[3].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
+        if(cells[3].getY()+1 >= GameWorld.CountCellY
+                || cells[0].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
             isDone = true;
         if (!isDone) {
             isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
@@ -125,7 +132,7 @@ public class I implements IFigure{
                 down = true;
                 break;
             case 62:
-                rotate();
+                rotate = true;
                 break;
         }
 
@@ -138,6 +145,23 @@ public class I implements IFigure{
     }
 
     public void rotate() {
-
+        if(cells[2].getX()==cells[3].getX() && rotate) {
+            cells[0].setX(cells[0].getX() + 2);
+            cells[0].setY(cells[0].getY() + 2);
+            cells[1].setX(cells[1].getX() + 1);
+            cells[1].setY(cells[1].getY() + 1);
+            cells[3].setX(cells[3].getX() - 1);
+            cells[3].setY(cells[3].getY() - 1);
+            rotate = false;
+        }
+        if(cells[2].getY()==cells[3].getY() && rotate) {
+            cells[0].setX(cells[0].getX() - 2);
+            cells[0].setY(cells[0].getY() - 2);
+            cells[1].setX(cells[1].getX() - 1);
+            cells[1].setY(cells[1].getY() - 1);
+            cells[3].setX(cells[3].getX() + 1);
+            cells[3].setY(cells[3].getY() + 1);
+            rotate = false;
+        }
     }
 }
