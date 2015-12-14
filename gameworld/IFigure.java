@@ -15,4 +15,6 @@ public interface IFigure {
      void onKeyDown(int code);
 
      void clearPastPosition();
+
+     void rotate();
 }

@@ -1,12 +1,7 @@
 package pi4.gameworld.figures;
 
-import android.graphics.Point;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import pi4.gameworld.Cell;
 import pi4.gameworld.GameWorld;
 import pi4.gameworld.IFigure;
-import pi4.tetris.Tetris;
 
 /**
  * Created by Евгений on 13.12.2015.
@@ -16,7 +11,7 @@ public class T implements IFigure{
     private int [][] bmap;
     private boolean isDone;
     private int bias;
-
+    private boolean down;
 
     private int color;
 
@@ -51,8 +46,17 @@ public class T implements IFigure{
 
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
-            for (int i = 0; i < 4; i++) {
-                cells[i].setY(cells[i].getY() + 1);
+            if (down){
+                while (!checkNextYMove()) {
+                    for (int i = 0; i < 4; i++) {
+                        cells[i].setY(cells[i].getY() + 1);
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < 4; i++) {
+                    cells[i].setY(cells[i].getY() + 1);
+                }
             }
         }
         if(!checkNextXMove()) { //валидность Х координаты
@@ -61,6 +65,7 @@ public class T implements IFigure{
             }
         }
         bias = 0;
+        down = false;
     }
     //�������� ��
     public boolean checkNextYMove(){
@@ -117,6 +122,12 @@ public class T implements IFigure{
                 case 22:
                     bias = 1;
                     break;
+                case 20:
+                    down = true;
+                    break;
+                case 62:
+                    rotate();
+                    break;
             }
 
     }
@@ -125,5 +136,9 @@ public class T implements IFigure{
         for (int i = 0; i < 4; i++) {
             bmap[cells[i].getX()][cells[i].getY()] = 0;
         }
+    }
+
+    public void rotate() {
+
     }
 }
