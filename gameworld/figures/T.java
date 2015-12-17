@@ -13,6 +13,7 @@ public class T implements IFigure{
     private int bias;
     private boolean down;
     private boolean rotate;
+    private int grad;
 
     private int color;
 
@@ -50,6 +51,7 @@ public class T implements IFigure{
             if (rotate || down) {
                 if (rotate) {
                     rotate();
+                    grad++;
                 }
                 if (down) {
                     while (!checkNextYMove()) {
@@ -72,6 +74,7 @@ public class T implements IFigure{
         }
         bias = 0;
         down = false;
+        rotate = false;
     }
     //�������� ��
     public boolean checkNextYMove(){
@@ -90,24 +93,7 @@ public class T implements IFigure{
     }
     public boolean checkNextXMove(){
         boolean flag = false;
-        int start = 0,end = 0;
-        /*switch (bias){ //bias показывает, куда нажал пользователь, вправо или влево
-            case 1:
-                start = 1;
-                end = 3;
-                break;
-            case -1:
-                start = 0;
-                end = 3;
-                break;
-        }*/
-        /*for(int i = start; i<= end; i+=2) {
-            if(cells[i].getX()+bias >= GameWorld.CountCellX || cells[i].getX()+bias<0)
-                flag = true;
-            if (!flag)
-                flag = bmap[cells[i].getX()+bias][cells[i].getY()] != 0;
-        }
-        return flag;*/
+
         if (bias == 1)
         if(cells[2].getX() + bias >= GameWorld.CountCellX)
             flag = true;
@@ -115,9 +101,7 @@ public class T implements IFigure{
         if(cells[0].getX() + bias <0)
             flag = true;
 
-
         return flag;
-
     }
 
     public void onKeyDown(int code){
@@ -146,41 +130,44 @@ public class T implements IFigure{
     }
 
     public void rotate() {
-        if(cells[2].getY()==cells[1].getY() && cells[2].getX()-cells[1].getX() > 0  && rotate) {
-            cells[0].setX(cells[0].getX() + 1);
-            cells[0].setY(cells[0].getY() - 1);
-            cells[2].setX(cells[2].getX() - 1);
-            cells[2].setY(cells[2].getY() + 1);
-            cells[3].setX(cells[3].getX() - 1);
-            cells[3].setY(cells[3].getY() - 1);
-            rotate = false;
-        }
-        if(cells[2].getX()==cells[1].getX() && cells[1].getX()-cells[3].getX() > 0 && rotate) {
-            cells[0].setX(cells[0].getX() + 1);
-            cells[0].setY(cells[0].getY() + 1);
-            cells[2].setX(cells[2].getX() - 1);
-            cells[2].setY(cells[2].getY() - 1);
-            cells[3].setX(cells[3].getX() + 1);
-            cells[3].setY(cells[3].getY() - 1);
-            rotate = false;
-        }
-        if(cells[2].getY()==cells[2].getY() && cells[2].getX()-cells[1].getX() < 0 && rotate) {
-            cells[0].setX(cells[0].getX() - 1);
-            cells[0].setY(cells[0].getY() + 1);
-            cells[2].setX(cells[2].getX() + 1);
-            cells[2].setY(cells[2].getY() - 1);
-            cells[3].setX(cells[3].getX() + 1);
-            cells[3].setY(cells[3].getY() + 1);
-            rotate = false;
-        }
-        if(cells[2].getX()==cells[1].getX() && cells[1].getX()-cells[3].getX() < 0 && rotate) {
-            cells[0].setX(cells[0].getX() - 1);
-            cells[0].setY(cells[0].getY() - 1);
-            cells[2].setX(cells[2].getX() + 1);
-            cells[2].setY(cells[2].getY() + 1);
-            cells[3].setX(cells[3].getX() - 1);
-            cells[3].setY(cells[3].getY() + 1);
-            rotate = false;
+        switch(grad) {
+            case 0: {
+                cells[0].setX(cells[0].getX() + 1);
+                cells[0].setY(cells[0].getY() - 1);
+                cells[2].setX(cells[2].getX() - 1);
+                cells[2].setY(cells[2].getY() + 1);
+                cells[3].setX(cells[3].getX() - 1);
+                cells[3].setY(cells[3].getY() - 1);
+                break;
+            }
+            case 1: {
+                cells[0].setX(cells[0].getX() + 1);
+                cells[0].setY(cells[0].getY() + 1);
+                cells[2].setX(cells[2].getX() - 1);
+                cells[2].setY(cells[2].getY() - 1);
+                cells[3].setX(cells[3].getX() + 1);
+                cells[3].setY(cells[3].getY() - 1);
+                break;
+            }
+            case 2: {
+                cells[0].setX(cells[0].getX() - 1);
+                cells[0].setY(cells[0].getY() + 1);
+                cells[2].setX(cells[2].getX() + 1);
+                cells[2].setY(cells[2].getY() - 1);
+                cells[3].setX(cells[3].getX() + 1);
+                cells[3].setY(cells[3].getY() + 1);
+                break;
+            }
+            case 3: {
+                cells[0].setX(cells[0].getX() - 1);
+                cells[0].setY(cells[0].getY() - 1);
+                cells[2].setX(cells[2].getX() + 1);
+                cells[2].setY(cells[2].getY() + 1);
+                cells[3].setX(cells[3].getX() - 1);
+                cells[3].setY(cells[3].getY() + 1);
+                grad = 0;
+                break;
+            }
         }
     }
 }
