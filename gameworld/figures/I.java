@@ -47,11 +47,7 @@ public class I implements IFigure{
 
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
-            if (rotate || down) {
-                if (rotate && !checkNextXMove()) {
-                    rotate();
-                    grad++;
-                }
+            if (down) {
                 if (down) {
                     while (!checkNextYMove()) {
                         for (int i = 0; i < 4; i++) {
@@ -61,6 +57,10 @@ public class I implements IFigure{
                 }
             }
             else {
+                if (rotate && !checkNextXMove()) {
+                    rotate();
+                    grad++;
+                }
                 for (int i = 0; i < 4; i++) {
                     cells[i].setY(cells[i].getY() + 1);
                 }

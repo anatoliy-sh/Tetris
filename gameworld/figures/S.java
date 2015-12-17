@@ -50,11 +50,7 @@ public class S implements IFigure{
 
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
-            if (rotate || down) {
-                if (rotate && !checkNextXMove()) {
-                    rotate();
-                    grad++;
-                }
+            if (down) {
                 if (down) {
                     while (!checkNextYMove()) {
                         for (int i = 0; i < 4; i++) {
@@ -64,6 +60,10 @@ public class S implements IFigure{
                 }
             }
             else {
+                if (rotate && !checkNextXMove()) {
+                    rotate();
+                    grad++;
+                }
                 for (int i = 0; i < 4; i++) {
                     cells[i].setY(cells[i].getY() + 1);
                 }
@@ -92,8 +92,8 @@ public class S implements IFigure{
                     return isDone;
                 }
                 case 1: {
-                    isDone = bmap[cells[0].getX()][cells[0].getY() + 1] != 0;
-                    isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
+                    isDone = bmap[cells[1].getX()][cells[1].getY() + 1] != 0;
+                    isDone = isDone || bmap[cells[3].getX()][cells[3].getY() + 1] != 0;//не налезла ли на другие фигуры
                     return isDone;
                 }
             }
