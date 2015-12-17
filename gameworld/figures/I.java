@@ -48,7 +48,7 @@ public class I implements IFigure{
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
             if (rotate || down) {
-                if (rotate) {
+                if (rotate && !checkNextXMove()) {
                     rotate();
                     grad++;
                 }
@@ -77,15 +77,21 @@ public class I implements IFigure{
     }
     //�������� ��
     public boolean checkNextYMove(){
-        //for(int i = 2; i< 4; i++)  //проверяется днище
         if(cells[3].getY()+1 >= GameWorld.CountCellY
                 || cells[0].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
             isDone = true;
         if (!isDone) {
-            isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
-            isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
-            isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;
-
+            switch (grad) {
+                case 0: {
+                    isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
+                    return isDone;
+                }
+                case 1: {
+                    for(int i = 0; i< 4; i++)
+                        isDone = bmap[cells[i].getX()][cells[i].getY()+1] != 0;
+                    return isDone;
+                }
+            }
         }
 
         return isDone;
