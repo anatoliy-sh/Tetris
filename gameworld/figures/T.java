@@ -46,35 +46,25 @@ public class T implements IFigure{
         moveDown();
     }
 
-    private void moveDown(){ //движение вниз
-        if(!checkNextYMove()) { //валидность Y координаты
+    private void moveDown() { //движение вниз
+        if (!checkNextYMove()) { //валидность Y координаты
             if (down) {
-                if (down) {
-                    while (!checkNextYMove()) {
-                        for (int i = 0; i < 4; i++) {
-                            cells[i].setY(cells[i].getY() + 1);
-                        }
-                    }
-                }
-            }
-            else {
+                goDown();
+            } else {
                 if (rotate && !checkNextXMove()) {
                     rotate();
-                    grad++;
                 }
                 for (int i = 0; i < 4; i++) {
                     cells[i].setY(cells[i].getY() + 1);
                 }
             }
         }
-        if(!checkNextXMove()) { //валидность Х координаты
+        if (!checkNextXMove()) { //валидность Х координаты
             for (int i = 0; i < 4; i++) {
                 cells[i].setX(cells[i].getX() + bias);
             }
         }
         bias = 0;
-        down = false;
-        rotate = false;
     }
     //�������� ��
     public boolean checkNextYMove(){
@@ -86,24 +76,19 @@ public class T implements IFigure{
             if (!isDone) {
                 switch(grad) {
                     case 0: {
-                        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
-                        isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
-                        isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;
+                        isDone = checkNextYMove0();
                         return isDone;
                     }
                     case 1: {
-                        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
-                        isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
+                        isDone = checkNextYMove1();
                         return isDone;
                     }
                     case 2: {
-                        for (int i = 0; i < 3; i++)
-                            isDone = bmap[cells[i].getX()][cells[i].getY() + 1] != 0;
+                        isDone = checkNextYMove2();
                         return isDone;
                     }
                     case 3: {
-                        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
-                        isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;//не налезла ли на другие фигуры
+                        isDone = checkNextYMove3();
                         return isDone;
                     }
                 }
@@ -149,7 +134,7 @@ public class T implements IFigure{
         }
     }
 
-    public void rotate() {
+    private void rotate() {
         switch(grad) {
             case 0: {
                 cells[0].setX(cells[0].getX() + 1);
@@ -185,9 +170,42 @@ public class T implements IFigure{
                 cells[2].setY(cells[2].getY() + 1);
                 cells[3].setX(cells[3].getX() - 1);
                 cells[3].setY(cells[3].getY() + 1);
-                grad = 0;
+                grad = -1;
                 break;
             }
         }
+        grad++;
+        rotate = false;
+    }
+
+    private boolean checkNextYMove0() {
+        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
+        isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
+        isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;
+        return isDone;
+    }
+    private boolean checkNextYMove1() {
+        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
+        isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
+        return isDone;
+    }
+    private boolean checkNextYMove2() {
+        for (int i = 0; i < 3; i++)
+            isDone = bmap[cells[i].getX()][cells[i].getY() + 1] != 0;
+        return isDone;
+    }
+    private boolean checkNextYMove3() {
+        isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
+        isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;//не налезла ли на другие фигуры
+        return isDone;
+    }
+
+    private void goDown(){
+        while (!checkNextYMove()) {
+            for (int i = 0; i < 4; i++) {
+                cells[i].setY(cells[i].getY() + 1);
+            }
+        }
+        down = false;
     }
 }

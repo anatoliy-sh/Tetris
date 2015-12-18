@@ -49,11 +49,7 @@ public class Q implements IFigure{
     private void moveDown(){ //движение вниз
         if(!checkNextYMove()) { //валидность Y координаты
             if (down){
-                while (!checkNextYMove()) {
-                    for (int i = 0; i < 4; i++) {
-                        cells[i].setY(cells[i].getY() + 1);
-                    }
-                }
+                goDown();
             }
             else {
                 for (int i = 0; i < 4; i++) {
@@ -122,7 +118,12 @@ public class Q implements IFigure{
         }
     }
 
-    public void rotate() {
-
+    private void goDown(){
+        while (!checkNextYMove()) {
+            for (int i = 0; i < 4; i++) {
+                cells[i].setY(cells[i].getY() + 1);
+            }
+        }
+        down = false;
     }
 }

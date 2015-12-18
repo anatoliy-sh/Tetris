@@ -16,5 +16,4 @@ public interface IFigure {
 
      void clearPastPosition();
 
-     void rotate();
 }
