@@ -29,20 +29,22 @@ public class GameWorld {
 
     private boolean generateFig;
 
-    public boolean getGenerateFig(){
+    public boolean getGenerateFig() {
         return generateFig;
     }
 
-    public void setGenerateFig(boolean value){
+    public void setGenerateFig(boolean value) {
         generateFig = value;
     }
 
     public IFigure getCurFigure() {
         return curFigure;
     }
+
     public IFigure getNextFigure() {
         return nextFigure;
     }
+
     public int[][] getBMap() {
         return bmap;
     }
@@ -73,6 +75,7 @@ public class GameWorld {
                 bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor();
             }
             if (curFigure.getIsDone()) {
+                checkLines();
                 curFigure = nextFigure;
                 nextFigure = randomFigure();
             }
@@ -81,11 +84,32 @@ public class GameWorld {
         }
     }
 
+    private void checkLines() {
+        boolean flDestroyLine;
+        for (int j = 0; j < CountCellY; j++) {
+            flDestroyLine = true;
+            for (int i = 0; i < CountCellX; i++) {
+                if (flDestroyLine)
+                    flDestroyLine = bmap[i][j] > 0;
+            }
+            if (flDestroyLine)
+                destroyLine(j);
+        }
+    }
+
+    private void destroyLine(int jLine) {
+        for (int i = 0; i < CountCellX; i++) {
+            bmap[i][jLine] = 0;
+        }
+        for (int i = 0; i < CountCellX; i++)
+            for (int j = jLine; j > 1; j--) {
+                bmap[i][j] = bmap[i][j-1];
+            }
+    }
 
     private IFigure randomFigure() {
-        int r = ran.nextInt(7); //0;
         generateFig = true;
-        switch (r) {
+        switch (ran.nextInt(7)) {
             case 1:
                 return new T(bmap, 1);
             case 2:
@@ -103,8 +127,6 @@ public class GameWorld {
         }
         return null;
     }
-
-
 
 
 }

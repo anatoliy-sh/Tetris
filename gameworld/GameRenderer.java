@@ -133,7 +133,6 @@ public class GameRenderer {
             for (int j = 0; j < COUNTNEXT; j++)
                 nextFigure[i][j].draw(batcher, i + 12, j + 3);
 
-
         batcher.end();
 
 
