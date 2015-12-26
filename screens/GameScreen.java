@@ -2,8 +2,7 @@ package pi4.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import pi4.Handlers.InputHandler;
+import pi4.handlers.InputHandler;
 import pi4.gameworld.GameRenderer;
 import pi4.gameworld.GameWorld;
 
@@ -12,11 +11,16 @@ import pi4.gameworld.GameWorld;
  */
 public class GameScreen implements Screen {
     public GameScreen() {
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
         Gdx.app.log("GameScreen", "Attached");
         world = new GameWorld(); // initialize world
+        Gdx.input.setInputProcessor(new InputHandler(world));
         renderer = new GameRenderer(world); // initialize renderer
 
-        Gdx.input.setInputProcessor(new InputHandler(world));
+
     }
     private GameWorld world;
     private GameRenderer renderer;

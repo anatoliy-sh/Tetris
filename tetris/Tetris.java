@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import pi4.handlers.AssetLoader;
 import pi4.screens.GameScreen;
 
 public class Tetris extends Game {
@@ -16,8 +17,15 @@ public class Tetris extends Game {
 	public void create () {
 		//batch = new SpriteBatch();
 		Gdx.app.log("ZBGame", "created");
-		img = new Texture("android/assets/badlogic.jpg");
+		AssetLoader.load();
+		//img = new Texture("android/assets/badlogic.jpg");
 		setScreen(new GameScreen());
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		AssetLoader.dispose();
 	}
 
 	/*@Override

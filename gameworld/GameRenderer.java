@@ -4,14 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import pi4.gameworld.figures.TetrisPoint;
-import pi4.tetris.Tetris;
+import pi4.handlers.AssetLoader;
+import pi4.handlers.InputHandler;
+import pi4.ui.SimpleButton;
+
+import java.util.List;
 
 /**
  * Created by Анатолий on 12.12.2015.
@@ -24,6 +24,8 @@ public class GameRenderer {
 
     private SpriteBatch batcher;
 
+    private List<SimpleButton> menuButtons;
+
     private Cell[][] map;
 
     private Cell[][] nextFigure;
@@ -34,6 +36,8 @@ public class GameRenderer {
     public GameRenderer(GameWorld world) {
 
         myWorld = world;
+        this.menuButtons = ((InputHandler) Gdx.input.getInputProcessor())
+                .getMenuButtons();
         map = new Cell[GameWorld.CountCellX][GameWorld.CountCellY];
         nextFigure = new Cell[COUNTNEXT][COUNTNEXT];
         cam = new OrthographicCamera();
@@ -43,6 +47,8 @@ public class GameRenderer {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
+
+
         createMap();
     }
 
@@ -77,66 +83,66 @@ public class GameRenderer {
     public void render() {
         //Gdx.app.log("GameRenderer", "render");
 
-        /*
-         * 1. Мы рисуем черный задний фон, чтобы избавится от моргания и следов от передвигающихся объектов
-         */
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       /*
-        // 2. Мы отрисовываем однотонный квадрат
 
-
-        // Говорим shapeRenderer начинать отрисовывать формы
-        shapeRenderer.begin(ShapeType.Filled);
-
-        // Выбираем RGB Color 87, 109, 120, не прозрачный
-        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-
-        // Отрисовываем квадрат из myWorld (Используем ShapeType.Filled)
-        shapeRenderer.rect(myWorld.getRect().x, myWorld.getRect().y,
-                myWorld.getRect().width, myWorld.getRect().height);
-
-
-
-        // говорим shapeRenderer прекратить отрисовку
-        // Мы ДОЛЖНЫ каждый раз это делать
-        shapeRenderer.end();
-
-
-         //3. Мы отрисовываем рамку для квадрата
-
-
-        // Говорим shapeRenderer нарисовать рамку следующей формы
-        shapeRenderer.begin(ShapeType.Line);
-
-        // Выбираем цвет RGB Color 255, 109, 120, не прозрачный
-        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-
-        // Отрисовываем квадрат из myWorld (Using ShapeType.Line)
-        shapeRenderer.rect(myWorld.getRect().x, myWorld.getRect().y,
-                myWorld.getRect().width, myWorld.getRect().height);
-
-        shapeRenderer.end();
-*/
-
-        //рисование поля
-        bmap = myWorld.getBMap();
-        setMap();
-        if (myWorld.getGenerateFig()) {
-            myWorld.setGenerateFig(false);
-            fillNextFigure();
+      batcher.begin();
+        if (myWorld.isMenu()) {
+            drawMenu();
         }
-        batcher.begin();
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 20; j++)
-                map[i][j].draw(batcher, i, j);
-        for (int i = 0; i < COUNTNEXT; i++)
-            for (int j = 0; j < COUNTNEXT; j++)
-                nextFigure[i][j].draw(batcher, i + 12, j + 3);
+        else if (myWorld.isGameOver()){
+            drawGameOver();
+        }else{
+            //рисование поля
+            bmap = myWorld.getBMap();
+            setMap();
+            if (myWorld.getGenerateFig()) {
+                myWorld.setGenerateFig(false);
+                fillNextFigure();
+            }
 
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 20; j++)
+                    map[i][j].draw(batcher, i, j);
+            for (int i = 0; i < COUNTNEXT; i++)
+                for (int j = 0; j < COUNTNEXT; j++)
+                    nextFigure[i][j].draw(batcher, i + 12, j + 3);
+
+            drawScore();
+        }
         batcher.end();
 
+    }
+    private void drawMenu() {
+        int length = ("" + "Tetris").length();
+        AssetLoader.shadow.draw(batcher, "" + "Tetris",
+                68 - (3 * length), 150 - 82);
+        AssetLoader.font.draw(batcher, "" + "Tetris",
+                68 - (3 * length), 150 - 83);
+        for (SimpleButton button : menuButtons) {
+            button.draw(batcher);
+        }
+    }
 
+    private void drawScore() {
+        int length = ("" + myWorld.getScore()).length();
+        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
+                150 - (3 * length), 150);
+        AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
+                151 - (3 * length), 151);
+    }
+
+    private void drawGameOver() {
+        int length = ("" + "GameOver").length();
+        AssetLoader.shadow.draw(batcher, "" + "GameOver",
+                68 - (3 * length), 150 - 82);
+        AssetLoader.font.draw(batcher, "" + "GameOver",
+                68 - (3 * length), 150 - 83);
+        length = ("" + myWorld.getScore()).length();
+        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
+                150 - (3 * length), 150);
+        AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
+                151 - (3 * length), 151);
     }
 
     private Color returnColor(int index) {

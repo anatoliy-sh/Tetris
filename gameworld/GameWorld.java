@@ -17,18 +17,27 @@ import java.util.Random;
 public class GameWorld {
     public static final int CountCellX = 10;
     public static final int CountCellY = 20;
+
+    private int score = 0;
+
     private float time;
     private int speed;
+    private GameState currentState;
 
-    private Random ran = new Random();
+    public enum GameState {
+        MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
+    }
+
+    private Random rnd = new Random();
 
     private int[][] bmap;
-
     private IFigure curFigure;
-
     private IFigure nextFigure;
-
     private boolean generateFig;
+
+    public int getScore(){
+        return score;
+    }
 
     public boolean getGenerateFig() {
         return generateFig;
@@ -51,6 +60,7 @@ public class GameWorld {
     }
 
     public GameWorld() {
+        currentState = GameState.MENU;
         bmap = new int[CountCellX][CountCellY];
         createMap();
         curFigure = randomFigure();
@@ -67,26 +77,27 @@ public class GameWorld {
     }
 
     public void update(float delta) {
-        time++;
-        //Gdx.app.log("GameWorld", "update"+time);
+        if(currentState == GameState.RUNNING) {
+            time++;
+            if (time > speed) {
+                curFigure.clearPastPosition();
+                curFigure.update(delta);
+                for (int i = 0; i < 4; i++) {
+                    bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor();
+                }
+                if (curFigure.getIsDone()) {
+                    checkLines();
+                    curFigure = nextFigure;
+                    nextFigure = randomFigure();
+                }
 
-        if (time > speed) {
-            curFigure.clearPastPosition();
-            curFigure.update(delta);
-            for (int i = 0; i < 4; i++) {
-                bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor();
+                time = 0;
             }
-            if (curFigure.getIsDone()) {
-                checkLines();
-                curFigure = nextFigure;
-                nextFigure = randomFigure();
-            }
-
-            time = 0;
         }
     }
 
     private void checkLines() {
+        checkGameOver();
         boolean flDestroyLine;
         for (int j = 0; j < CountCellY; j++) {
             flDestroyLine = true;
@@ -100,6 +111,7 @@ public class GameWorld {
     }
 
     private void destroyLine(int jLine) {
+
         for (int i = 0; i < CountCellX; i++) {
             bmap[i][jLine] = 0;
         }
@@ -107,11 +119,20 @@ public class GameWorld {
             for (int j = jLine; j > 1; j--) {
                 bmap[i][j] = bmap[i][j-1];
             }
+        score+=100;
     }
 
+    private void checkGameOver(){
+        for (int i = 0; i < CountCellX; i++) {
+           if(bmap[i][1] > 0) {
+               currentState = GameState.GAMEOVER;
+               break;
+           }
+        }
+    }
     private IFigure randomFigure() {
         generateFig = true;
-        switch (4) {
+        switch (rnd.nextInt(7)) {
             case 1:
                 return new T(bmap, 1);
             case 2:
@@ -129,6 +150,17 @@ public class GameWorld {
         }
         return null;
     }
-
+    public void start() {
+        currentState = GameState.RUNNING;
+    }
+    public boolean isRunning() {
+        return currentState == GameState.RUNNING;
+    }
+    public boolean isMenu() {
+        return currentState == GameState.MENU;
+    }
+    public boolean isGameOver() {
+        return currentState == GameState.GAMEOVER;
+    }
 
 }
