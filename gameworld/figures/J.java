@@ -6,9 +6,9 @@ import pi4.gameworld.IFigure;
 /**
  * Created by Евгений on 13.12.2015.
  */
-public class J implements IFigure{
+public class J implements IFigure {
     private TetrisPoint[] cells;
-    private int [][] bmap;
+    private int[][] bmap;
     private boolean isDone;
     private int bias;
     private boolean down;
@@ -17,16 +17,19 @@ public class J implements IFigure{
 
     private int color;
 
-    public boolean getIsDone(){
+    public boolean getIsDone() {
         return isDone;
     }
-    public int getColor(){return color;}
 
-    public TetrisPoint[] getCells(){
+    public int getColor() {
+        return color;
+    }
+
+    public TetrisPoint[] getCells() {
         return cells;
     }
 
-    public J(int[][] bmap, int color){
+    public J(int[][] bmap, int color) {
         cells = new TetrisPoint[4];
         this.bmap = bmap;
         this.color = color;
@@ -34,24 +37,24 @@ public class J implements IFigure{
         fullCells();
         bias = 0;
     }
+
     //��������� �������
-    private void fullCells(){ //формировка фигуры
-        cells[0] = new TetrisPoint(5,0);
-        cells[1] = new TetrisPoint(5,1);
-        cells[2] = new TetrisPoint(5,2);
-        cells[3] = new TetrisPoint(4,2);
+    private void fullCells() { //формировка фигуры
+        cells[0] = new TetrisPoint(5, 0);
+        cells[1] = new TetrisPoint(5, 1);
+        cells[2] = new TetrisPoint(5, 2);
+        cells[3] = new TetrisPoint(4, 2);
     }
-    //��������� �������
-    public void update(float delta){
+
+    public void update(float delta) {
         moveDown();
     }
 
-    private void moveDown(){ //движение вниз
-        if(!checkNextYMove()) { //валидность Y координаты
+    private void moveDown() { //движение вниз
+        if (!checkNextYMove()) { //валидность Y координаты
             if (down) {
                 goDown();
-            }
-            else {
+            } else {
                 if (rotate && !checkNextXMove()) {
                     rotate();
                 }
@@ -60,21 +63,21 @@ public class J implements IFigure{
                 }
             }
         }
-        if(!checkNextXMove()) { //валидность Х координаты
+        if (!checkNextXMove()) { //валидность Х координаты
             for (int i = 0; i < 4; i++) {
                 cells[i].setX(cells[i].getX() + bias);
             }
         }
         bias = 0;
     }
-    //�������� ��
-    public boolean checkNextYMove(){
+
+    public boolean checkNextYMove() {
         //for(int i = 2; i< 4; i++)  //проверяется днище
-        if(cells[3].getY()+1 >= GameWorld.CountCellY
-                || cells[0].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
+        if (cells[3].getY() + 1 >= GameWorld.CountCellY
+                || cells[0].getY() + 1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
             isDone = true;
         if (!isDone) {
-            switch(grad) {
+            switch (grad) {
                 case 0: {
                     isDone = checkNextYMove0();
                     return isDone;
@@ -96,21 +99,22 @@ public class J implements IFigure{
 
         return isDone;
     }
-    public boolean checkNextXMove(){
+
+    public boolean checkNextXMove() {
         boolean flag = false;
 
         if (bias == 1)
-            if(cells[0].getX() + bias >= GameWorld.CountCellX)
+            if (cells[0].getX() + bias >= GameWorld.CountCellX)
                 flag = true;
-        if(bias == -1)
-            if(cells[3].getX() + bias <0)
+        if (bias == -1)
+            if (cells[3].getX() + bias < 0)
                 flag = true;
         if ((bmap[cells[3].getX() - 1][cells[3].getY()] != 0) || (bmap[cells[2].getX() + 1][cells[2].getY()] != 0))
             flag = true;
         return flag;
     }
 
-    public void onKeyDown(int code){
+    public void onKeyDown(int code) {
 
         switch (code) {
             case 21:
@@ -129,14 +133,14 @@ public class J implements IFigure{
 
     }
 
-    public void clearPastPosition(){
+    public void clearPastPosition() {
         for (int i = 0; i < 4; i++) {
             bmap[cells[i].getX()][cells[i].getY()] = 0;
         }
     }
 
     private void rotate() {
-        switch(grad) {
+        switch (grad) {
             case 0: {
                 cells[0].setX(cells[0].getX() + 2);
                 cells[0].setY(cells[0].getY() + 2);
@@ -184,16 +188,19 @@ public class J implements IFigure{
         isDone = isDone || bmap[cells[2].getX()][cells[2].getY() + 1] != 0;//не налезла ли на другие фигуры
         return isDone;
     }
+
     private boolean checkNextYMove1() {
         for (int i = 0; i < 3; i++)
             isDone = bmap[cells[i].getX()][cells[i].getY() + 1] != 0;
         return isDone;
     }
+
     private boolean checkNextYMove2() {
         isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
         isDone = isDone || bmap[cells[0].getX()][cells[0].getY() + 1] != 0;//не налезла ли на другие фигуры
         return isDone;
     }
+
     private boolean checkNextYMove3() {
         isDone = bmap[cells[3].getX()][cells[3].getY() + 1] != 0;
         isDone = isDone || bmap[cells[1].getX()][cells[1].getY() + 1] != 0;
@@ -201,7 +208,7 @@ public class J implements IFigure{
         return isDone;
     }
 
-    private void goDown(){
+    private void goDown() {
         while (!checkNextYMove()) {
             for (int i = 0; i < 4; i++) {
                 cells[i].setY(cells[i].getY() + 1);

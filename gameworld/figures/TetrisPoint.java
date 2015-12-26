@@ -5,23 +5,26 @@ package pi4.gameworld.figures;
  */
 public class TetrisPoint {
     private int x;
-    private  int y;
+    private int y;
 
-    public TetrisPoint(int x, int y){
+    public TetrisPoint(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
-    public int getY(){
+
+    public int getY() {
         return y;
     }
-    public void setX(int x){
+
+    public void setX(int x) {
         this.x = x;
     }
-    public void setY(int y){
+
+    public void setY(int y) {
         this.y = y;
     }
 }
