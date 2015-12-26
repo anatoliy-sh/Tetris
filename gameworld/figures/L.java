@@ -116,8 +116,8 @@ public class L implements IFigure {
                 rightRect = 0;
                 break;
             case 2:
-                leftRect = 0;
-                rightRect = 3;
+                leftRect = 3;
+                rightRect = 0;
                 break;
             case 3:
                 leftRect = 0;

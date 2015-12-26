@@ -101,33 +101,43 @@ public class J implements IFigure {
 
     public boolean checkNextXMove() {
         boolean flag = false;
-
-        if (bias == 1)
-            if (cells[0].getX() + bias >= GameWorld.CountCellX)
-                flag = true;
-        if (bias == -1)
-            if (cells[3].getX() + bias < 0)
-                flag = true;
-        if (!flag) {
-            switch (grad) {
-                case 0:
-                    flag = checkNextXMove0();
-                    break;
-                case 1:
-                    flag = checkNextXMove0();
-                    break;
-                case 2:
-                    flag = checkNextXMove0();
-                    break;
-                case 3:
-                    flag = checkNextXMove0();
-                    break;
-            }
+        int leftRect = 0, rightRect = 0;
+        switch (grad) {
+            case 0:
+                leftRect = 3;
+                rightRect = 0;
+                break;
+            case 1:
+                leftRect = 3;
+                rightRect = 0;
+                break;
+            case 2:
+                leftRect = 0;
+                rightRect = 3;
+                break;
+            case 3:
+                leftRect = 0;
+                rightRect = 3;
+                break;
         }
+        flag = checkNextXMoveScreen(leftRect, rightRect);
+        if (!flag)
+            flag = checkNextXMoveF();
+
         return flag;
     }
 
-    public boolean checkNextXMove0() {
+    public boolean checkNextXMoveScreen(int leftRect, int rightRect) {
+        if (bias == 1)
+            if (cells[rightRect].getX() + 1 >= GameWorld.CountCellX)
+                return true;
+        if (bias == -1)
+            if (cells[leftRect].getX() - 1 < 0)
+                return true;
+        return false;
+    }
+
+    public boolean checkNextXMoveF() {
         boolean flag = false;
         for (int i = 0; i < 4; i++) {
             if (bmap[cells[i].getX() + bias][cells[i].getY()] != 0)

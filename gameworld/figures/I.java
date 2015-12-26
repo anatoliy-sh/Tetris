@@ -92,46 +92,37 @@ public class I implements IFigure {
 
     public boolean checkNextXMove() {
         boolean flag = false;
-        if (bias == 1)
-            if (cells[2].getX() + bias >= GameWorld.CountCellX)
-                flag = true;
-        if (bias == -1)
-            if (cells[0].getX() + bias < 0)
-                flag = true;
+        int leftRect = 0, rightRect = 0;
+        switch (grad) {
+            case 0:
+                leftRect = 0;
+                rightRect = 3;
+                break;
+            case 1:
+                leftRect = 3;
+                rightRect = 0;
+                break;
 
-        if (!flag) {
-            switch (grad) {
-                case 0:
-                    flag = checkNextXMove0();
-                    break;
-                case 1:
-                    flag = checkNextXMove0();
-                    break;
-            }
         }
+        flag = checkNextXMoveScreen(leftRect, rightRect);
+        if (!flag)
+            flag = checkNextXMoveF();
+
         return flag;
     }
 
-    public boolean checkNextXMove0() {
-        boolean flag = false;
-
-
-        for (int i = 0; i < 4; i++) {
-            if (bmap[cells[i].getX() + bias][cells[i].getY()] != 0)
-                flag = true;
-        }
-        return flag;
+    public boolean checkNextXMoveScreen(int leftRect, int rightRect) {
+        if (bias == 1)
+            if (cells[rightRect].getX() + 1 >= GameWorld.CountCellX)
+                return true;
+        if (bias == -1)
+            if (cells[leftRect].getX() - 1 < 0)
+                return true;
+        return false;
     }
 
-    public boolean checkNextXMove1() {
-
+    public boolean checkNextXMoveF() {
         boolean flag = false;
-        if (bias == 1)
-            if (cells[3].getX() + bias - 1 >= GameWorld.CountCellX)
-                flag = true;
-        if (bias == -1)
-            if (cells[0].getX() + bias + 2 < 0)
-                flag = true;
         for (int i = 0; i < 4; i++) {
             if (bmap[cells[i].getX() + bias][cells[i].getY()] != 0)
                 flag = true;
