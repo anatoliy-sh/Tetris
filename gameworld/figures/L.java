@@ -105,7 +105,8 @@ public class L implements IFigure{
         if(bias == -1)
             if(cells[0].getX() + bias <0)
                 flag = true;
-
+        if ((bmap[cells[3].getX() + 1][cells[3].getY()] != 0) || (bmap[cells[2].getX() + 1][cells[2].getY()] != 0))
+            flag = true;
         return flag;
     }
 

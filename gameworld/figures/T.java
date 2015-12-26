@@ -64,6 +64,7 @@ public class T implements IFigure{
                 cells[i].setX(cells[i].getX() + bias);
             }
         }
+
         bias = 0;
     }
     //�������� ��
