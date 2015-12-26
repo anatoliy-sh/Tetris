@@ -78,7 +78,7 @@ public class Q implements IFigure{
     public boolean checkNextXMove(){
         boolean flag = false;
         int start = 0,end = 0;
-        switch (bias){ //bias показывает, куда нажал пользователь, вправо или влево
+       /* switch (bias){ //bias показывает, куда нажал пользователь, вправо или влево
             case 1:
                 start = 2;
                 end = 3;
@@ -89,11 +89,22 @@ public class Q implements IFigure{
                 break;
         }
         for(int i = start; i<= end; i+=2) {
-            if(cells[i].getX()+bias >= GameWorld.CountCellX || cells[i].getX()+bias<0)
+            if(bias == 1)
+            if(cells[i].getX()+bias >= GameWorld.CountCellX)
+                flag = true;
+            if(bias == -1)
+            if(cells[i].getX()+bias<0)
                 flag = true;
             if (!flag)
                 flag = bmap[cells[i].getX()+bias][cells[i].getY()] != 0;
-        }
+        }*/
+        if (bias == 1)
+            if(cells[1].getX() + bias >= GameWorld.CountCellX)
+                flag = true;
+        if(bias == -1)
+            if(cells[2].getX() + bias <0)
+                flag = true;
+        if(!flag)
         for (int i = 0; i < 4; i++) {
             if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
                 flag = true;

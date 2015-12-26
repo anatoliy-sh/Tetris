@@ -93,24 +93,26 @@ public class S implements IFigure{
         boolean flag = false;
 
         if (bias == 1)
-            if(cells[1].getX() + bias >= GameWorld.CountCellX)
+            if(cells[3].getX() + bias >= GameWorld.CountCellX)
                 flag = true;
         if(bias == -1)
-            if(cells[3].getX() + bias <0)
+            if(cells[0].getX() + bias <0)
                 flag = true;
-        switch (grad){
-            case 0:
-                flag = checkNextXMove0();
-                break;
-            case 1:
-                flag = checkNextXMove0();
-                break;
-            case 2:
-                flag = checkNextXMove0();
-                break;
-            case 3:
-                flag = checkNextXMove0();
-                break;
+        if(!flag) {
+            switch (grad) {
+                case 0:
+                    flag = checkNextXMove0();
+                    break;
+                case 1:
+                    flag = checkNextXMove0();
+                    break;
+                case 2:
+                    flag = checkNextXMove0();
+                    break;
+                case 3:
+                    flag = checkNextXMove0();
+                    break;
+            }
         }
         return flag;
     }

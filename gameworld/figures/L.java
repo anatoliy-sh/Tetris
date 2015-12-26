@@ -105,20 +105,21 @@ public class L implements IFigure{
         if(bias == -1)
             if(cells[0].getX() + bias <0)
                 flag = true;
-
-        switch (grad){
-            case 0:
-                flag = checkNextXMove0();
-                break;
-            case 1:
-                flag = checkNextXMove0();
-                break;
-            case 2:
-                flag = checkNextXMove0();
-                break;
-            case 3:
-                flag = checkNextXMove0();
-                break;
+        if(!flag) {
+            switch (grad) {
+                case 0:
+                    flag = checkNextXMove0();
+                    break;
+                case 1:
+                    flag = checkNextXMove0();
+                    break;
+                case 2:
+                    flag = checkNextXMove0();
+                    break;
+                case 3:
+                    flag = checkNextXMove0();
+                    break;
+            }
         }
         return flag;
     }

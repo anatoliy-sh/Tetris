@@ -88,7 +88,6 @@ public class I implements IFigure{
     }
     public boolean checkNextXMove(){
         boolean flag = false;
-
         if (bias == 1)
             if(cells[2].getX() + bias >= GameWorld.CountCellX)
                 flag = true;
@@ -96,8 +95,8 @@ public class I implements IFigure{
             if(cells[0].getX() + bias <0)
                 flag = true;
 
-
-            switch(grad) {
+        if(!flag) {
+            switch (grad) {
                 case 0:
                     flag = checkNextXMove0();
                     break;
@@ -105,13 +104,31 @@ public class I implements IFigure{
                     flag = checkNextXMove0();
                     break;
             }
-
+        }
         return flag;
     }
 
     public boolean checkNextXMove0(){
         boolean flag = false;
+
+
         for (int i = 0; i < 4; i++) {
+            if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
+                flag = true;
+        }
+        return flag;
+    }
+
+    public boolean checkNextXMove1(){
+
+        boolean flag = false;
+        if (bias == 1)
+            if(cells[3].getX() + bias - 1 >= GameWorld.CountCellX)
+                flag = true;
+        if(bias == -1)
+            if(cells[0].getX() + bias + 2 <0)
+                flag = true;
+       for (int i = 0; i < 4; i++) {
             if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
                 flag = true;
         }
