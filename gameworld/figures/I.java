@@ -96,12 +96,28 @@ public class I implements IFigure{
             if(cells[0].getX() + bias <0)
                 flag = true;
 
+
+            switch(grad) {
+                case 0:
+                    flag = checkNextXMove0();
+                    break;
+                case 1:
+                    flag = checkNextXMove0();
+                    break;
+            }
+
+        return flag;
+    }
+
+    public boolean checkNextXMove0(){
+        boolean flag = false;
         for (int i = 0; i < 4; i++) {
-           if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
-            flag = true;
+            if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
+                flag = true;
         }
         return flag;
     }
+
 
     public void onKeyDown(int code){
 
