@@ -19,109 +19,92 @@ public class GameWorld {
     public static final int CountCellY = 20;
     private float time;
 
-    Random ran = new Random();
+    private Random ran = new Random();
 
-    Cell[][] map;
+    private int[][] bmap;
 
-    int[][] bmap;
+    private IFigure curFigure;
 
-    IFigure curFigure;
+    private IFigure nextFigure;
+
+    private boolean generateFig;
+
+    public boolean getGenerateFig(){
+        return generateFig;
+    }
+
+    public void setGenerateFig(boolean value){
+        generateFig = value;
+    }
 
     public IFigure getCurFigure() {
         return curFigure;
     }
+    public IFigure getNextFigure() {
+        return nextFigure;
+    }
+    public int[][] getBMap() {
+        return bmap;
+    }
 
     public GameWorld() {
-        map = new Cell[CountCellX][CountCellY];
         bmap = new int[CountCellX][CountCellY];
         createMap();
-        randomFigure();
+        curFigure = randomFigure();
+        nextFigure = randomFigure();
         time = 0;
     }
 
     private void createMap() {
         for (int i = 0; i < CountCellX; i++)
             for (int j = 0; j < CountCellY; j++) {
-                map[i][j] = new Cell(Color.WHITE);
                 bmap[i][j] = 0;
             }
     }
 
-    private void randomFigure() {
-        int r = 0;//ran.nextInt(7);
-        switch (r) {
-            case 1:
-                curFigure = new T(bmap, 1);
-                break;
-            case 2:
-                curFigure = new Q(bmap, 2);
-                break;
-            case 3:
-                curFigure = new J(bmap, 3);
-                break;
-            case 4:
-                curFigure = new L(bmap, 4);
-                break;
-            case 5:
-                curFigure = new S(bmap, 5);
-                break;
-            case 6:
-                curFigure = new Z(bmap, 6);
-                break;
-            case 0:
-                curFigure = new I(bmap, 7);
-                break;
-        }
-    }
-
     public void update(float delta) {
-        time += delta;
+        time++;
         //Gdx.app.log("GameWorld", "update"+time);
 
-        if (time > 0.5) {
+        if (time > 10) {
             curFigure.clearPastPosition();
             curFigure.update(delta);
             for (int i = 0; i < 4; i++) {
                 bmap[curFigure.getCells()[i].getX()][curFigure.getCells()[i].getY()] = curFigure.getColor();
             }
-            if (curFigure.getIsDone())
-                //curFigure = new Z(bmap,1);
-                randomFigure();
+            if (curFigure.getIsDone()) {
+                curFigure = nextFigure;
+                nextFigure = randomFigure();
+            }
+
             time = 0;
         }
-        for (int i = 0; i < CountCellX; i++)
-            for (int j = 0; j < CountCellY; j++) {
-                switch (bmap[i][j]) {
-                    case 0:
-                        map[i][j].setColor(Color.WHITE);
-                        break;
-                    case 1:
-                        map[i][j].setColor(Color.RED);
-                        break;
-                    case 2:
-                        map[i][j].setColor(Color.GREEN);
-                        break;
-                    case 3:
-                        map[i][j].setColor(Color.BLUE);
-                        break;
-                    case 4:
-                        map[i][j].setColor(Color.YELLOW);
-                        break;
-                    case 5:
-                        map[i][j].setColor(Color.CORAL);
-                        break;
-                    case 6:
-                        map[i][j].setColor(Color.CYAN);
-                        break;
-                    case 7:
-                        map[i][j].setColor(Color.VIOLET);
-                        break;
-                }
-
-            }
     }
 
-    public Cell[][] getMap() {
-        return map;
+
+    private IFigure randomFigure() {
+        int r = ran.nextInt(7); //0;
+        generateFig = true;
+        switch (r) {
+            case 1:
+                return new T(bmap, 1);
+            case 2:
+                return new Q(bmap, 2);
+            case 3:
+                return new J(bmap, 3);
+            case 4:
+                return new L(bmap, 4);
+            case 5:
+                return new S(bmap, 5);
+            case 6:
+                return new Z(bmap, 6);
+            case 0:
+                return new I(bmap, 7);
+        }
+        return null;
     }
+
+
+
+
 }

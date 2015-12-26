@@ -10,20 +10,32 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import pi4.gameworld.figures.TetrisPoint;
+import pi4.tetris.Tetris;
 
 /**
  * Created by Анатолий on 12.12.2015.
  */
 public class GameRenderer {
+    private final int COUNTNEXT = 4;
     private GameWorld myWorld;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
 
     private SpriteBatch batcher;
 
+    private Cell[][] map;
+
+    private Cell[][] nextFigure;
+
+
+    private int[][]bmap;
+
     public GameRenderer(GameWorld world) {
 
         myWorld = world;
+        map = new Cell[GameWorld.CountCellX][GameWorld.CountCellY];
+        nextFigure = new Cell[COUNTNEXT][COUNTNEXT];
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 200, 204);
         shapeRenderer = new ShapeRenderer();
@@ -31,6 +43,34 @@ public class GameRenderer {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
+        createMap();
+    }
+    private void createMap() {
+        for (int i = 0; i < GameWorld.CountCellX; i++)
+            for (int j = 0; j < GameWorld.CountCellY; j++) {
+                map[i][j] = new Cell(Color.WHITE);
+            }
+        for (int i = 0; i < COUNTNEXT; i++)
+            for (int j = 0; j < COUNTNEXT; j++) {
+                nextFigure[i][j] = new Cell(Color.WHITE);
+            }
+    }
+
+    private void setMap(){
+        for (int i = 0; i < GameWorld.CountCellX; i++)
+            for (int j = 0; j < GameWorld.CountCellY; j++) {
+                map[i][j].setColor(returnColor(bmap[i][j]));
+            }
+    }
+
+    private void fillNextFigure(){
+        TetrisPoint[] tmp = myWorld.getNextFigure().getCells();
+        for (int i = 0; i < COUNTNEXT; i++)
+            for (int j = 0; j < COUNTNEXT; j++) {
+                nextFigure[i][j].setColor(Color.WHITE);
+            }
+        for (int i = 0; i < 4; i++)
+                nextFigure[tmp[i].getX()-4][tmp[i].getY()].setColor(returnColor(myWorld.getNextFigure().getColor()));
     }
 
     public void render() {
@@ -78,15 +118,45 @@ public class GameRenderer {
         shapeRenderer.end();
 */
 
-       //рисование поля
+        //рисование поля
+        bmap = myWorld.getBMap();
+        setMap();
+        if(myWorld.getGenerateFig()) {
+            myWorld.setGenerateFig(false);
+            fillNextFigure();
+        }
         batcher.begin();
         for (int i = 0; i < 10; i++)
             for (int j = 0; j < 20; j++)
-                myWorld.getMap()[i][j].draw(batcher, i, j);
+                map[i][j].draw(batcher, i, j);
+        for (int i = 0; i < COUNTNEXT; i++)
+            for (int j = 0; j < COUNTNEXT; j++)
+                nextFigure[i][j].draw(batcher, i + 12, j + 3);
+
 
         batcher.end();
 
 
-
+    }
+    private Color returnColor(int index){
+        switch (index) {
+            case 0:
+                return Color.WHITE;
+            case 1:
+                return Color.RED;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.BLUE;
+            case 4:
+                return Color.YELLOW;
+            case 5:
+                return Color.CORAL;
+            case 6:
+                return Color.CYAN;
+            case 7:
+                return Color.VIOLET;
+        }
+        return Color.WHITE;
     }
 }
