@@ -29,7 +29,7 @@ public class GameRenderer {
     private Cell[][] nextFigure;
 
 
-    private int[][]bmap;
+    private int[][] bmap;
 
     public GameRenderer(GameWorld world) {
 
@@ -45,6 +45,7 @@ public class GameRenderer {
         batcher.setProjectionMatrix(cam.combined);
         createMap();
     }
+
     private void createMap() {
         for (int i = 0; i < GameWorld.CountCellX; i++)
             for (int j = 0; j < GameWorld.CountCellY; j++) {
@@ -56,21 +57,21 @@ public class GameRenderer {
             }
     }
 
-    private void setMap(){
+    private void setMap() {
         for (int i = 0; i < GameWorld.CountCellX; i++)
             for (int j = 0; j < GameWorld.CountCellY; j++) {
                 map[i][j].setColor(returnColor(bmap[i][j]));
             }
     }
 
-    private void fillNextFigure(){
+    private void fillNextFigure() {
         TetrisPoint[] tmp = myWorld.getNextFigure().getCells();
         for (int i = 0; i < COUNTNEXT; i++)
             for (int j = 0; j < COUNTNEXT; j++) {
                 nextFigure[i][j].setColor(Color.WHITE);
             }
         for (int i = 0; i < 4; i++)
-                nextFigure[tmp[i].getX()-4][tmp[i].getY()].setColor(returnColor(myWorld.getNextFigure().getColor()));
+            nextFigure[tmp[i].getX() - 4][tmp[i].getY()].setColor(returnColor(myWorld.getNextFigure().getColor()));
     }
 
     public void render() {
@@ -121,7 +122,7 @@ public class GameRenderer {
         //рисование поля
         bmap = myWorld.getBMap();
         setMap();
-        if(myWorld.getGenerateFig()) {
+        if (myWorld.getGenerateFig()) {
             myWorld.setGenerateFig(false);
             fillNextFigure();
         }
@@ -137,7 +138,8 @@ public class GameRenderer {
 
 
     }
-    private Color returnColor(int index){
+
+    private Color returnColor(int index) {
         switch (index) {
             case 0:
                 return Color.WHITE;

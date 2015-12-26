@@ -18,6 +18,7 @@ public class GameWorld {
     public static final int CountCellX = 10;
     public static final int CountCellY = 20;
     private float time;
+    private int speed;
 
     private Random ran = new Random();
 
@@ -54,6 +55,7 @@ public class GameWorld {
         createMap();
         curFigure = randomFigure();
         nextFigure = randomFigure();
+        speed = 20;
         time = 0;
     }
 
@@ -68,7 +70,7 @@ public class GameWorld {
         time++;
         //Gdx.app.log("GameWorld", "update"+time);
 
-        if (time > 10) {
+        if (time > speed) {
             curFigure.clearPastPosition();
             curFigure.update(delta);
             for (int i = 0; i < 4; i++) {
@@ -109,7 +111,7 @@ public class GameWorld {
 
     private IFigure randomFigure() {
         generateFig = true;
-        switch (ran.nextInt(7)) {
+        switch (4) {
             case 1:
                 return new T(bmap, 1);
             case 2:

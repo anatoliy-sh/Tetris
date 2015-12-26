@@ -6,9 +6,9 @@ import pi4.gameworld.IFigure;
 /**
  * Created by Евгений on 13.12.2015.
  */
-public class S implements IFigure{
+public class S implements IFigure {
     private TetrisPoint[] cells;
-    private int [][] bmap;
+    private int[][] bmap;
     private boolean isDone;
     private int bias;
     private boolean down;
@@ -17,17 +17,19 @@ public class S implements IFigure{
 
     private int color;
 
-    public boolean getIsDone(){
+    public boolean getIsDone() {
         return isDone;
     }
 
-    public int getColor(){return color;}
+    public int getColor() {
+        return color;
+    }
 
-    public TetrisPoint[] getCells(){
+    public TetrisPoint[] getCells() {
         return cells;
     }
 
-    public S(int[][] bmap, int color){
+    public S(int[][] bmap, int color) {
         cells = new TetrisPoint[4];
         this.bmap = bmap;
         this.color = color;
@@ -36,24 +38,23 @@ public class S implements IFigure{
         bias = 0;
         grad = 0;
     }
-    //��������� �������
-    private void fullCells(){ //формировка фигуры
-        cells[0] = new TetrisPoint(4,1);
-        cells[1] = new TetrisPoint(5,1);
-        cells[2] = new TetrisPoint(5,0);
-        cells[3] = new TetrisPoint(6,0);
+
+    private void fullCells() { //формировка фигуры
+        cells[0] = new TetrisPoint(4, 1);
+        cells[1] = new TetrisPoint(5, 1);
+        cells[2] = new TetrisPoint(5, 0);
+        cells[3] = new TetrisPoint(6, 0);
     }
-    //��������� �������
-    public void update(float delta){
+
+    public void update(float delta) {
         moveDown();
     }
 
-    private void moveDown(){ //движение вниз
-        if(!checkNextYMove()) { //валидность Y координаты
+    private void moveDown() { //движение вниз
+        if (!checkNextYMove()) { //валидность Y координаты
             if (down) {
                 goDown();
-            }
-            else {
+            } else {
                 if (rotate && !checkNextXMove()) {
                     rotate();
                 }
@@ -62,20 +63,20 @@ public class S implements IFigure{
                 }
             }
         }
-        if(!checkNextXMove()) { //валидность Х координаты
+        if (!checkNextXMove()) { //валидность Х координаты
             for (int i = 0; i < 4; i++) {
                 cells[i].setX(cells[i].getX() + bias);
             }
         }
         bias = 0;
     }
-    //�������� ��
-    public boolean checkNextYMove(){
-        if(cells[3].getY()+1 >= GameWorld.CountCellY
-                || cells[0].getY()+1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
+
+    public boolean checkNextYMove() {
+        if (cells[3].getY() + 1 >= GameWorld.CountCellY
+                || cells[0].getY() + 1 >= GameWorld.CountCellY) //не вышла ли за низ. Если на +1 уже пол, фигура упала
             isDone = true;
         if (!isDone) {
-            switch(grad) {
+            switch (grad) {
                 case 0: {
                     isDone = checkNextYMove0();
                     return isDone;
@@ -89,16 +90,17 @@ public class S implements IFigure{
 
         return isDone;
     }
-    public boolean checkNextXMove(){
+
+    public boolean checkNextXMove() {
         boolean flag = false;
 
         if (bias == 1)
-            if(cells[3].getX() + bias >= GameWorld.CountCellX)
+            if (cells[3].getX() + bias >= GameWorld.CountCellX)
                 flag = true;
-        if(bias == -1)
-            if(cells[0].getX() + bias <0)
+        if (bias == -1)
+            if (cells[0].getX() + bias < 0)
                 flag = true;
-        if(!flag) {
+        if (!flag) {
             switch (grad) {
                 case 0:
                     flag = checkNextXMove0();
@@ -117,19 +119,17 @@ public class S implements IFigure{
         return flag;
     }
 
-    public boolean checkNextXMove0(){
+    public boolean checkNextXMove0() {
         boolean flag = false;
         for (int i = 0; i < 4; i++) {
-            if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
+            if (bmap[cells[i].getX() + bias][cells[i].getY()] != 0)
                 flag = true;
         }
         return flag;
     }
 
 
-
-
-    public void onKeyDown(int code){
+    public void onKeyDown(int code) {
 
         switch (code) {
             case 21:
@@ -148,14 +148,14 @@ public class S implements IFigure{
 
     }
 
-    public void clearPastPosition(){
+    public void clearPastPosition() {
         for (int i = 0; i < 4; i++) {
             bmap[cells[i].getX()][cells[i].getY()] = 0;
         }
     }
 
     private void rotate() {
-        switch(grad) {
+        switch (grad) {
             case 0: {
                 cells[0].setY(cells[0].getY() - 2);
                 cells[1].setX(cells[1].getX() - 1);
@@ -191,7 +191,7 @@ public class S implements IFigure{
         return isDone;
     }
 
-    private void goDown(){
+    private void goDown() {
         while (!checkNextYMove()) {
             for (int i = 0; i < 4; i++) {
                 cells[i].setY(cells[i].getY() + 1);

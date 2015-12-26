@@ -101,7 +101,7 @@ public class Z implements IFigure {
         if (bias == -1)
             if (cells[0].getX() + bias < 0)
                 flag = true;
-        if(!flag) {
+        if (!flag) {
             switch (grad) {
                 case 0:
                     flag = checkNextXMove0();
@@ -120,10 +120,10 @@ public class Z implements IFigure {
         return flag;
     }
 
-    public boolean checkNextXMove0(){
+    public boolean checkNextXMove0() {
         boolean flag = false;
         for (int i = 0; i < 4; i++) {
-            if (bmap[cells[i].getX()+bias][cells[i].getY()] != 0)
+            if (bmap[cells[i].getX() + bias][cells[i].getY()] != 0)
                 flag = true;
         }
         return flag;
