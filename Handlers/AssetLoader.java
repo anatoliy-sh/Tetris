@@ -13,23 +13,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
 	public static Texture texture, logoTexture,cell;
-	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
-			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			ready, highScore, scoreboard, star, noStar, retry;
-	public static Animation birdAnimation;
-	public static Sound line, gameOver, down, fall;
+	public static TextureRegion  playButtonUp, playButtonDown;
+	public static Sound line, gameOver, down;
 	public static Music fon;
-	public static BitmapFont font, shadow, whiteFont;
+	public static BitmapFont font, shadow;
 	private static Preferences prefs;
 
 	public static void load() {
 
 
-		/*line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
+		line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
 		gameOver = Gdx.audio.newSound(Gdx.files.internal("core/data/game_over.wav"));
 		down = Gdx.audio.newSound(Gdx.files.internal("core/data/down.wav"));
-		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));*/
-		//fall = Gdx.audio.newSound(Gdx.files.internal("core/data/fall.wav"));
+		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));
 		logoTexture = new Texture(Gdx.files.internal("core/data/fon.jpg"));
 
 		texture = new Texture(Gdx.files.internal("core/data/texture.png"));
@@ -45,13 +41,9 @@ public class AssetLoader {
 		font = new BitmapFont(Gdx.files.internal("core/data/text.fnt"));
 		font.getData().setScale(.25f, -.25f);
 
-		//whiteFont = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
-		//whiteFont.getData().setScale(.1f, -.1f);
-
 		shadow = new BitmapFont(Gdx.files.internal("core/data/shadow.fnt"));
 		shadow.getData().setScale(.25f, -.25f);
 
-		// Create (or retrieve existing) preferences file
 		prefs = Gdx.app.getPreferences("ZombieBird");
 
 		if (!prefs.contains("highScore")) {
@@ -59,14 +51,7 @@ public class AssetLoader {
 		}
 	}
 
-	public static void setHighScore(int val) {
-		prefs.putInteger("highScore", val);
-		prefs.flush();
-	}
 
-	public static int getHighScore() {
-		return prefs.getInteger("highScore");
-	}
 
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.

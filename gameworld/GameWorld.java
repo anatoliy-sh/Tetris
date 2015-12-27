@@ -7,6 +7,7 @@ import pi4.gameworld.figures.L;
 import pi4.gameworld.figures.S;
 import pi4.gameworld.figures.Z;
 import pi4.gameworld.figures.I;
+import pi4.handlers.AssetLoader;
 
 import java.util.Random;
 
@@ -24,7 +25,7 @@ public class GameWorld {
     private GameState currentState;
 
     public enum GameState {
-        MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
+        MENU, RUNNING, GAMEOVER
     }
 
     private Random rnd = new Random();
@@ -122,12 +123,15 @@ public class GameWorld {
                 bmap[i][j] = bmap[i][j-1];
             }
         score+=100;
+        AssetLoader.line.play();
     }
 
     private void checkGameOver(){
         for (int i = 0; i < CountCellX; i++) {
            if(bmap[i][1] > 0) {
                currentState = GameState.GAMEOVER;
+               AssetLoader.fon.stop();
+               AssetLoader.gameOver.play();
                break;
            }
         }
@@ -154,6 +158,12 @@ public class GameWorld {
     }
     public void start() {
         currentState = GameState.RUNNING;
+    }
+
+    public void restart(){
+        currentState = GameState.RUNNING;
+        score = 0;
+        createMap();
     }
     public boolean isRunning() {
         return currentState == GameState.RUNNING;

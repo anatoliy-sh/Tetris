@@ -55,11 +55,11 @@ public class GameRenderer {
     private void createMap() {
         for (int i = 0; i < GameWorld.CountCellX; i++)
             for (int j = 0; j < GameWorld.CountCellY; j++) {
-                map[i][j] = new Cell(AssetLoader.cell,Color.WHITE);
+                map[i][j] = new Cell(AssetLoader.cell, Color.WHITE);
             }
         for (int i = 0; i < COUNTNEXT; i++)
             for (int j = 0; j < COUNTNEXT; j++) {
-                nextFigure[i][j] = new Cell(AssetLoader.cell,Color.BLACK);
+                nextFigure[i][j] = new Cell(AssetLoader.cell, Color.BLACK);
             }
     }
 
@@ -81,44 +81,45 @@ public class GameRenderer {
     }
 
     public void render() {
-        //Gdx.app.log("GameRenderer", "render");
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-      batcher.begin();
+        batcher.begin();
         if (myWorld.isMenu()) {
             drawMenu();
-        }
-        else if (myWorld.isGameOver()){
+        } else if (myWorld.isGameOver()) {
             drawGameOver();
-        }else{
-            //рисование поля
-            bmap = myWorld.getBMap();
-            setMap();
-            if (myWorld.getGenerateFig()) {
-                myWorld.setGenerateFig(false);
-                fillNextFigure();
-            }
-
-            for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 20; j++)
-                    map[i][j].draw(batcher, i, j);
-            for (int i = 0; i < COUNTNEXT; i++)
-                for (int j = 0; j < COUNTNEXT; j++)
-                    nextFigure[i][j].draw(batcher, i + 12, j + 3);
-
-            drawScore();
+        } else {
+            drawGame();
         }
         batcher.end();
 
     }
+
+    private void drawGame() {
+        bmap = myWorld.getBMap();
+        setMap();
+        if (myWorld.getGenerateFig()) {
+            myWorld.setGenerateFig(false);
+            fillNextFigure();
+        }
+
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 20; j++)
+                map[i][j].draw(batcher, i, j);
+        for (int i = 0; i < COUNTNEXT; i++)
+            for (int j = 0; j < COUNTNEXT; j++)
+                nextFigure[i][j].draw(batcher, i + 12, j + 3);
+
+        drawScore();
+    }
+
     private void drawMenu() {
         batcher.draw(AssetLoader.logoTexture, 0, 0,
-                AssetLoader.logoTexture.getWidth() , AssetLoader.logoTexture.getHeight());
-        for (SimpleButton button : menuButtons) {
-            button.draw(batcher);
-        }
+                AssetLoader.logoTexture.getWidth(), AssetLoader.logoTexture.getHeight());
+        int length = ("Click \nto \nstart").length();
+        AssetLoader.font.draw(batcher, "Click \nto \nstart",
+                51 - (3 * length), 91);
     }
 
     private void drawScore() {
@@ -139,15 +140,16 @@ public class GameRenderer {
     private void drawGameOver() {
         //AssetLoader.gameOver.play();
         int length = ("Game Over").length();
-        AssetLoader.shadow.draw(batcher,"Game Over",
-                68 - (3 * length), 150 - 82);
-        AssetLoader.font.draw(batcher,"Game Over",
+        AssetLoader.shadow.draw(batcher, "Game Over",
+                58 - (3 * length), 150 - 82);
+        AssetLoader.font.draw(batcher, "Game Over",
                 68 - (3 * length), 150 - 83);
         length = ("" + myWorld.getScore()).length();
-        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
-                150 - (3 * length), 150);
         AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
                 151 - (3 * length), 151);
+        length = ("Click to start").length();
+        AssetLoader.font.draw(batcher, "Click to restart",
+                68 - (3 * length), 91);
     }
 
     private Color returnColor(int index) {
