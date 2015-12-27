@@ -17,7 +17,7 @@ public class InputHandler implements InputProcessor {
 
     private GameWorld world;
     private List<SimpleButton> menuButtons;
-    private SimpleButton playButton;
+    private SimpleButton playButton,upLvlBut,downLvlBut;
 
     public InputHandler(GameWorld world) {
         this.world = world;
@@ -26,7 +26,17 @@ public class InputHandler implements InputProcessor {
                 170 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
                  180, 29, 16, AssetLoader.playButtonUp,
                 AssetLoader.playButtonDown);
+        upLvlBut = new SimpleButton(
+                170 - (AssetLoader.upLvl.getRegionWidth() / 2),
+                80, 10, 10, AssetLoader.upLvl,
+                AssetLoader.upLvl);
+        downLvlBut = new SimpleButton(
+                170 - (AssetLoader.downLvl.getRegionWidth() / 2),
+                100, 10, 10, AssetLoader.downLvl,
+                AssetLoader.downLvl);
+        menuButtons.add(downLvlBut);
         menuButtons.add(playButton);
+        menuButtons.add(upLvlBut);
     }
 
     @Override
@@ -42,6 +52,10 @@ public class InputHandler implements InputProcessor {
         if (world.isRunning()){
             if(playButton.isClicked(screenX, screenY))
                 world.restart();
+            else if(downLvlBut.isClicked(screenX,screenY))
+                world.downLvl();
+            else if(upLvlBut.isClicked(screenX,screenY))
+                world.upLvl();
         }
         if (world.isGameOver())
             world.restart();

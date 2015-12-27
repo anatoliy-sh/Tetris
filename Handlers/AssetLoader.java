@@ -13,13 +13,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
 	public static Texture texture, logoTexture,cell;
-	public static TextureRegion  playButtonUp, playButtonDown;
+	public static TextureRegion  playButtonUp, playButtonDown, upLvl, downLvl;
 	public static Sound line, gameOver, down;
 	public static Music fon;
 	public static BitmapFont font, shadow;
 	private static Preferences prefs;
 
-	public static void load() {
+	public static void load() throws NullPointerException{
 
 
 		/*line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
@@ -37,6 +37,9 @@ public class AssetLoader {
 		playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
+
+		upLvl = new TextureRegion(texture, 152, 70, 10, 10);
+		downLvl = new TextureRegion(texture, 165, 70, 10, 10);
 
 		font = new BitmapFont(Gdx.files.internal("core/data/text.fnt"));
 		font.getData().setScale(.25f, -.25f);

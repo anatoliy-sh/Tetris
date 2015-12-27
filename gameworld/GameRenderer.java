@@ -120,10 +120,6 @@ public class GameRenderer {
         int length = ("Click \nto \nstart").length();
         AssetLoader.font.draw(batcher, "Click \nto \nstart",
                 51 - (3 * length), 91);
-        for (SimpleButton button : menuButtons) {
-            button.draw(batcher);
-        }
-
     }
 
     private void drawScore() {
@@ -177,6 +173,8 @@ public class GameRenderer {
                 return Color.DARK_GRAY;
             case 7:
                 return Color.MAROON;
+            case 8:
+                return Color.RED;
         }
         return Color.WHITE;
     }

@@ -31,8 +31,7 @@ public class SimpleButton {
 	}
 
 	public boolean isClicked(int screenX, int screenY) {
-		Gdx.app.log("SimpleButton", "" + x + "" + width);
-		Gdx.app.log("SimpleButton", "" + y + "" + height);
+
 		if(bounds.contains(screenX/2, screenY/2)) {
 			isPressed = !isPressed;
 			return true;

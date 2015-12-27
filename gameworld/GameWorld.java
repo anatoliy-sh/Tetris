@@ -25,7 +25,7 @@ public class GameWorld {
     private GameState currentState;
 
     public enum GameState {
-        MENU, RUNNING, GAMEOVER
+        MENU, RUNNING, GAMEOVER, DYING
     }
 
     private Random rnd = new Random();
@@ -94,6 +94,9 @@ public class GameWorld {
                 time = 0;
             }
         }
+        else if(currentState == GameState.DYING){
+            dying();
+        }
     }
 
     private void checkLines() {
@@ -122,20 +125,35 @@ public class GameWorld {
             for (int j = jLine; j > 1; j--) {
                 bmap[i][j] = bmap[i][j-1];
             }
-        score+=100;
+        score+=100*lvl;
         //AssetLoader.line.play();
     }
 
     private void checkGameOver(){
         for (int i = 0; i < CountCellX; i++) {
            if(bmap[i][1] > 0) {
-               currentState = GameState.GAMEOVER;
+               currentState = GameState.DYING;
                //AssetLoader.fon.stop();
                //AssetLoader.gameOver.play();
                break;
            }
         }
     }
+
+    private void dying(){
+        boolean flag = false;
+        for (int i = 0; i < CountCellX; i++)
+            for (int j = 0; j < CountCellY; j++) {
+                if(bmap[i][j] == 0) {
+                    bmap[i][j] = 8;
+                    flag = true;
+                    break;
+                }
+            }
+        if(!flag)
+            currentState = GameState.GAMEOVER;
+    }
+
     private IFigure randomFigure() {
         generateFig = true;
         switch (rnd.nextInt(7)) {
@@ -165,8 +183,24 @@ public class GameWorld {
         score = 0;
         curFigure = randomFigure();
         nextFigure = randomFigure();
+        lvl = 0;
         createMap();
     }
+
+    public void upLvl(){
+        if(lvl < 10){
+            lvl++;
+            speed-=2;
+        }
+    }
+
+    public void downLvl(){
+        if(lvl > 1){
+            lvl--;
+            speed+=2;
+        }
+    }
+
     public boolean isRunning() {
         return currentState == GameState.RUNNING;
     }
