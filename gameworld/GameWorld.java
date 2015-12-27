@@ -1,6 +1,5 @@
 package pi4.gameworld;
 
-import com.badlogic.gdx.graphics.Color;
 import pi4.gameworld.figures.Q;
 import pi4.gameworld.figures.T;
 import pi4.gameworld.figures.J;
@@ -8,7 +7,6 @@ import pi4.gameworld.figures.L;
 import pi4.gameworld.figures.S;
 import pi4.gameworld.figures.Z;
 import pi4.gameworld.figures.I;
-import pi4.handlers.AssetLoader;
 
 import java.util.Random;
 
@@ -20,7 +18,7 @@ public class GameWorld {
     public static final int CountCellY = 20;
 
     private int score = 0;
-
+    private int lvl = 1;
     private float time;
     private int speed;
     private GameState currentState;
@@ -39,11 +37,12 @@ public class GameWorld {
     public int getScore(){
         return score;
     }
-
     public boolean getGenerateFig() {
         return generateFig;
     }
-
+    public int getLvl(){
+        return lvl;
+    }
     public void setGenerateFig(boolean value) {
         generateFig = value;
     }
@@ -91,7 +90,6 @@ public class GameWorld {
                     curFigure = nextFigure;
                     nextFigure = randomFigure();
                 }
-
                 time = 0;
             }
         }
@@ -112,7 +110,10 @@ public class GameWorld {
     }
 
     private void destroyLine(int jLine) {
-        AssetLoader.line.play();
+        if(score / lvl == 1000) {
+            lvl++;
+            speed-=2;
+        }
         for (int i = 0; i < CountCellX; i++) {
             bmap[i][jLine] = 0;
         }

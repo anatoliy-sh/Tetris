@@ -59,7 +59,7 @@ public class GameRenderer {
             }
         for (int i = 0; i < COUNTNEXT; i++)
             for (int j = 0; j < COUNTNEXT; j++) {
-                nextFigure[i][j] = new Cell(AssetLoader.cell,Color.WHITE);
+                nextFigure[i][j] = new Cell(AssetLoader.cell,Color.BLACK);
             }
     }
 
@@ -74,7 +74,7 @@ public class GameRenderer {
         TetrisPoint[] tmp = myWorld.getNextFigure().getCells();
         for (int i = 0; i < COUNTNEXT; i++)
             for (int j = 0; j < COUNTNEXT; j++) {
-                nextFigure[i][j].setColor(Color.WHITE);
+                nextFigure[i][j].setColor(Color.BLACK);
             }
         for (int i = 0; i < 4; i++)
             nextFigure[tmp[i].getX() - 4][tmp[i].getY()].setColor(returnColor(myWorld.getNextFigure().getColor()));
@@ -114,11 +114,8 @@ public class GameRenderer {
 
     }
     private void drawMenu() {
-        int length = ("" + "Tetris").length();
-        AssetLoader.shadow.draw(batcher, "" + "Tetris",
-                68 - (3 * length), 150 - 82);
-        AssetLoader.font.draw(batcher, "" + "Tetris",
-                68 - (3 * length), 150 - 83);
+        batcher.draw(AssetLoader.logoTexture, 0, 0,
+                AssetLoader.logoTexture.getWidth() , AssetLoader.logoTexture.getHeight());
         for (SimpleButton button : menuButtons) {
             button.draw(batcher);
         }
@@ -126,18 +123,25 @@ public class GameRenderer {
 
     private void drawScore() {
         int length = ("" + myWorld.getScore()).length();
-        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
-                150 - (3 * length), 150);
         AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
                 151 - (3 * length), 151);
+        length = ("Score").length();
+        AssetLoader.font.draw(batcher, "Score",
+                131 - (3 * length), 121);
+        length = ("Lvl").length();
+        AssetLoader.font.draw(batcher, "Lvl",
+                131 - (3 * length), 81);
+        length = ("" + myWorld.getLvl()).length();
+        AssetLoader.font.draw(batcher, "" + myWorld.getLvl(),
+                151 - (3 * length), 101);
     }
 
     private void drawGameOver() {
-        AssetLoader.gameOver.play();
-        int length = ("" + "GameOver").length();
-        AssetLoader.shadow.draw(batcher, "" + "GameOver",
+        //AssetLoader.gameOver.play();
+        int length = ("Game Over").length();
+        AssetLoader.shadow.draw(batcher,"Game Over",
                 68 - (3 * length), 150 - 82);
-        AssetLoader.font.draw(batcher, "" + "GameOver",
+        AssetLoader.font.draw(batcher,"Game Over",
                 68 - (3 * length), 150 - 83);
         length = ("" + myWorld.getScore()).length();
         AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),

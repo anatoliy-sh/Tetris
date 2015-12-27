@@ -25,12 +25,13 @@ public class AssetLoader {
 	public static void load() {
 
 
-		line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
+		/*line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
 		gameOver = Gdx.audio.newSound(Gdx.files.internal("core/data/game_over.wav"));
 		down = Gdx.audio.newSound(Gdx.files.internal("core/data/down.wav"));
-		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));
+		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));*/
 		//fall = Gdx.audio.newSound(Gdx.files.internal("core/data/fall.wav"));
-		
+		logoTexture = new Texture(Gdx.files.internal("core/data/fon.jpg"));
+
 		texture = new Texture(Gdx.files.internal("core/data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
@@ -70,7 +71,7 @@ public class AssetLoader {
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.
 		//texture.dispose();
-
+		logoTexture.dispose();
 		line.dispose();
 		gameOver.dispose();
 		down.dispose();
