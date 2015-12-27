@@ -50,21 +50,19 @@ public class J implements IFigure {
     }
 
     private void moveDown() { //движение вниз
+        if (rotate)
+            rotate();
+        if (!checkNextXMove()) { //валидность Х координаты
+            for (int i = 0; i < 4; i++)
+                cells[i].setX(cells[i].getX() + bias);
+        }
         if (!checkNextYMove()) { //валидность Y координаты
             if (down) {
                 goDown();
             } else {
-                if (rotate && !checkNextXMove()) {
-                    rotate();
-                }
                 for (int i = 0; i < 4; i++) {
                     cells[i].setY(cells[i].getY() + 1);
                 }
-            }
-        }
-        if (!checkNextXMove()) { //валидность Х координаты
-            for (int i = 0; i < 4; i++) {
-                cells[i].setX(cells[i].getX() + bias);
             }
         }
         bias = 0;
@@ -163,7 +161,6 @@ public class J implements IFigure {
                 rotate = true;
                 break;
         }
-
     }
 
     public void clearPastPosition() {
@@ -175,45 +172,79 @@ public class J implements IFigure {
     private void rotate() {
         switch (grad) {
             case 0: {
-                cells[0].setX(cells[0].getX() + 2);
-                cells[0].setY(cells[0].getY() + 2);
-                cells[1].setX(cells[1].getX() + 1);
-                cells[1].setY(cells[1].getY() + 1);
-                cells[3].setX(cells[3].getX() + 1);
-                cells[3].setY(cells[3].getY() - 1);
+                rotate0();
                 break;
             }
             case 1: {
-                cells[0].setX(cells[0].getX() - 2);
-                cells[0].setY(cells[0].getY() + 2);
-                cells[1].setX(cells[1].getX() - 1);
-                cells[1].setY(cells[1].getY() + 1);
-                cells[3].setX(cells[3].getX() + 1);
-                cells[3].setY(cells[3].getY() + 1);
+                rotate1();
                 break;
             }
             case 2: {
-                cells[0].setX(cells[0].getX() - 2);
-                cells[0].setY(cells[0].getY() - 2);
-                cells[1].setX(cells[1].getX() - 1);
-                cells[1].setY(cells[1].getY() - 1);
-                cells[3].setX(cells[3].getX() - 1);
-                cells[3].setY(cells[3].getY() + 1);
+                rotate2();
                 break;
             }
             case 3: {
-                cells[0].setX(cells[0].getX() + 2);
-                cells[0].setY(cells[0].getY() - 2);
-                cells[1].setX(cells[1].getX() + 1);
-                cells[1].setY(cells[1].getY() - 1);
-                cells[3].setX(cells[3].getX() - 1);
-                cells[3].setY(cells[3].getY() - 1);
-                grad = -1;
+                rotate3();
                 break;
             }
         }
-        grad++;
         rotate = false;
+    }
+
+    private void rotate0() {
+        if (cells[2].getX() + 2 < GameWorld.CountCellX
+                && bmap[cells[2].getX() + 1][cells[2].getY()] == 0
+                && bmap[cells[2].getX() + 2][cells[2].getY()] == 0) {
+            cells[0].setX(cells[0].getX() + 2);
+            cells[0].setY(cells[0].getY() + 2);
+            cells[1].setX(cells[1].getX() + 1);
+            cells[1].setY(cells[1].getY() + 1);
+            cells[3].setX(cells[3].getX() + 1);
+            cells[3].setY(cells[3].getY() - 1);
+            grad++;
+        }
+    }
+
+    private void rotate1() {
+        if (cells[2].getX() - 2 > 0
+                && bmap[cells[2].getX() - 1][cells[2].getY()] == 0
+                && bmap[cells[2].getX() - 2][cells[2].getY()] == 0) {
+            cells[0].setX(cells[0].getX() - 2);
+            cells[0].setY(cells[0].getY() + 2);
+            cells[1].setX(cells[1].getX() - 1);
+            cells[1].setY(cells[1].getY() + 1);
+            cells[3].setX(cells[3].getX() + 1);
+            cells[3].setY(cells[3].getY() + 1);
+            grad++;
+        }
+    }
+
+    private void rotate2() {
+        if (cells[1].getX() - 2 > 0
+                && bmap[cells[1].getX() - 2][cells[1].getY()] == 0
+                && bmap[cells[1].getX() - 1][cells[1].getY()] == 0) {
+            cells[0].setX(cells[0].getX() - 2);
+            cells[0].setY(cells[0].getY() - 2);
+            cells[1].setX(cells[1].getX() - 1);
+            cells[1].setY(cells[1].getY() - 1);
+            cells[3].setX(cells[3].getX() - 1);
+            cells[3].setY(cells[3].getY() + 1);
+            grad++;
+        }
+    }
+
+    private void rotate3() {
+        if (cells[2].getY() - 2 > 0
+                && bmap[cells[2].getX()][cells[2].getY() - 1] == 0
+                && bmap[cells[2].getX()][cells[2].getY() - 2] == 0) {
+            cells[0].setX(cells[0].getX() + 2);
+            cells[0].setY(cells[0].getY() - 2);
+            cells[1].setX(cells[1].getX() + 1);
+            cells[1].setY(cells[1].getY() - 1);
+            cells[3].setX(cells[3].getX() - 1);
+            cells[3].setY(cells[3].getY() - 1);
+            grad = 0;
+        }
     }
 
     private boolean checkNextYMove0() {
@@ -223,8 +254,11 @@ public class J implements IFigure {
     }
 
     private boolean checkNextYMove1() {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) {
             isDone = bmap[cells[i].getX()][cells[i].getY() + 1] != 0;
+            if (isDone)
+                break;
+        }
         return isDone;
     }
 

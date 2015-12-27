@@ -52,7 +52,11 @@ public class Q implements IFigure {
     }
 
     private void moveDown() { //движение вниз
-        if (!checkNextYMove()) { //валидность Y координаты
+        if (!checkNextXMove()) { //валидность Х координаты
+            for (int i = 0; i < 4; i++) {
+                cells[i].setX(cells[i].getX() + bias);
+            }
+        }if (!checkNextYMove()) { //валидность Y координаты
             if (down) {
                 goDown();
             } else {
@@ -60,12 +64,6 @@ public class Q implements IFigure {
                     cells[i].setY(cells[i].getY() + 1);
                 }
             }
-        }
-        if (!checkNextXMove()) { //валидность Х координаты
-            for (int i = 0; i < 4; i++) {
-                cells[i].setX(cells[i].getX() + bias);
-            }
-
         }
         bias = 0;
     }
