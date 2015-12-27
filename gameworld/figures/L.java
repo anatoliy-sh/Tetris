@@ -36,6 +36,9 @@ public class L implements IFigure {
         isDone = false; //упала ли она
         fullCells();
         bias = 0;
+        down = false;
+        rotate = false;
+        grad = 0;
     }
 
 

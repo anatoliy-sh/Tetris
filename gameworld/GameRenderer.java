@@ -157,19 +157,19 @@ public class GameRenderer {
             case 0:
                 return Color.WHITE;
             case 1:
-                return Color.RED;
+                return Color.BROWN;
             case 2:
-                return Color.GREEN;
+                return Color.OLIVE;
             case 3:
-                return Color.BLUE;
+                return Color.ROYAL;
             case 4:
-                return Color.YELLOW;
+                return Color.GOLDENROD;
             case 5:
-                return Color.CORAL;
+                return Color.SLATE;
             case 6:
-                return Color.CYAN;
+                return Color.DARK_GRAY;
             case 7:
-                return Color.VIOLET;
+                return Color.MAROON;
         }
         return Color.WHITE;
     }

@@ -37,6 +37,7 @@ public class Z implements IFigure {
         fullCells();
         bias = 0;
         down = false;
+        rotate = false;
         grad = 0;
     }
 
