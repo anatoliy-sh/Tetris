@@ -123,15 +123,15 @@ public class GameWorld {
                 bmap[i][j] = bmap[i][j-1];
             }
         score+=100;
-        AssetLoader.line.play();
+        //AssetLoader.line.play();
     }
 
     private void checkGameOver(){
         for (int i = 0; i < CountCellX; i++) {
            if(bmap[i][1] > 0) {
                currentState = GameState.GAMEOVER;
-               AssetLoader.fon.stop();
-               AssetLoader.gameOver.play();
+               //AssetLoader.fon.stop();
+               //AssetLoader.gameOver.play();
                break;
            }
         }
@@ -163,6 +163,8 @@ public class GameWorld {
     public void restart(){
         currentState = GameState.RUNNING;
         score = 0;
+        curFigure = randomFigure();
+        nextFigure = randomFigure();
         createMap();
     }
     public boolean isRunning() {

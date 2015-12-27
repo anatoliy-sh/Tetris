@@ -23,8 +23,8 @@ public class InputHandler implements InputProcessor {
         this.world = world;
         menuButtons = new ArrayList<SimpleButton>();
         playButton = new SimpleButton(
-                200/ 2 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
-                 204/2, 29, 16, AssetLoader.playButtonUp,
+                170 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
+                 180, 29, 16, AssetLoader.playButtonUp,
                 AssetLoader.playButtonDown);
         menuButtons.add(playButton);
     }
@@ -32,10 +32,16 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Gdx.app.log("InputHandler", "touchDown");
+        Gdx.app.log("InputHandler", "" + screenX);
+        Gdx.app.log("InputHandler", "" + screenY);
         if (world.isMenu()) {
-            //playButton.isClicked(screenX, screenY);
-            AssetLoader.fon.play();
+
+            //AssetLoader.fon.play();
             world.start();
+        }
+        if (world.isRunning()){
+            if(playButton.isClicked(screenX, screenY))
+                world.restart();
         }
         if (world.isGameOver())
             world.restart();
@@ -45,8 +51,8 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         Gdx.app.log("InputHandler", "keydown"+keycode);
-        if(keycode == 20)
-            AssetLoader.down.play();
+        //if(keycode == 20)
+        //    AssetLoader.down.play();
         world.getCurFigure().onKeyDown(keycode);
         return false;
     }

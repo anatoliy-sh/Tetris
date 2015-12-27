@@ -1,5 +1,6 @@
 package pi4.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -30,8 +31,13 @@ public class SimpleButton {
 	}
 
 	public boolean isClicked(int screenX, int screenY) {
-		isPressed = !isPressed;
-		return bounds.contains(screenX, screenY);
+		Gdx.app.log("SimpleButton", "" + x + "" + width);
+		Gdx.app.log("SimpleButton", "" + y + "" + height);
+		if(bounds.contains(screenX/2, screenY/2)) {
+			isPressed = !isPressed;
+			return true;
+		}
+		return false;
 	}
 
 	public void draw(SpriteBatch batcher) {

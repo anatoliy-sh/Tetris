@@ -120,6 +120,10 @@ public class GameRenderer {
         int length = ("Click \nto \nstart").length();
         AssetLoader.font.draw(batcher, "Click \nto \nstart",
                 51 - (3 * length), 91);
+        for (SimpleButton button : menuButtons) {
+            button.draw(batcher);
+        }
+
     }
 
     private void drawScore() {
@@ -135,6 +139,9 @@ public class GameRenderer {
         length = ("" + myWorld.getLvl()).length();
         AssetLoader.font.draw(batcher, "" + myWorld.getLvl(),
                 151 - (3 * length), 101);
+        for (SimpleButton button : menuButtons) {
+            button.draw(batcher);
+        }
     }
 
     private void drawGameOver() {

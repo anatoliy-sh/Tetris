@@ -22,10 +22,10 @@ public class AssetLoader {
 	public static void load() {
 
 
-		line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
+		/*line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
 		gameOver = Gdx.audio.newSound(Gdx.files.internal("core/data/game_over.wav"));
 		down = Gdx.audio.newSound(Gdx.files.internal("core/data/down.wav"));
-		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));
+		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));*/
 		logoTexture = new Texture(Gdx.files.internal("core/data/fon.jpg"));
 
 		texture = new Texture(Gdx.files.internal("core/data/texture.png"));
