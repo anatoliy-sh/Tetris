@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-	public static Texture texture, logoTexture,cell;
-	public static TextureRegion  playButtonUp, playButtonDown, upLvl, downLvl;
+	public static Texture texture, logoTexture,cell, music;
+	public static TextureRegion  playButtonUp, playButtonDown, upLvl, downLvl, buttonMusic;
 	public static Sound line, gameOver, down;
 	public static Music fon;
 	public static BitmapFont font, shadow;
@@ -22,14 +22,17 @@ public class AssetLoader {
 	public static void load() throws NullPointerException{
 
 
-		/*line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
+		line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
 		gameOver = Gdx.audio.newSound(Gdx.files.internal("core/data/game_over.wav"));
 		down = Gdx.audio.newSound(Gdx.files.internal("core/data/down.wav"));
-		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));*/
+		fon = Gdx.audio.newMusic(Gdx.files.internal("core/data/fon.mp3"));
 		logoTexture = new Texture(Gdx.files.internal("core/data/fon.jpg"));
 
 		texture = new Texture(Gdx.files.internal("core/data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		music = new Texture((Gdx.files.internal("core/data/music.png")));
+		buttonMusic = new TextureRegion(music, 0,0,72,72);
+		buttonMusic.flip(false, true);
 
 		cell = new Texture(Gdx.files.internal("core/data/cell.png"));
 

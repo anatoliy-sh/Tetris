@@ -126,15 +126,15 @@ public class GameWorld {
                 bmap[i][j] = bmap[i][j-1];
             }
         score+=100*lvl;
-        //AssetLoader.line.play();
+        AssetLoader.line.play();
     }
 
     private void checkGameOver(){
         for (int i = 0; i < CountCellX; i++) {
            if(bmap[i][1] > 0) {
                currentState = GameState.DYING;
-               //AssetLoader.fon.stop();
-               //AssetLoader.gameOver.play();
+               AssetLoader.fon.stop();
+               AssetLoader.gameOver.play();
                break;
            }
         }
@@ -183,7 +183,8 @@ public class GameWorld {
         score = 0;
         curFigure = randomFigure();
         nextFigure = randomFigure();
-        lvl = 0;
+        lvl = 1;
+        speed = 20;
         createMap();
     }
 

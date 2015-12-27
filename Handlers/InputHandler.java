@@ -1,7 +1,7 @@
 package pi4.handlers;
 
 /**
- * Created by Анатолий on 13.12.2015.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 13.12.2015.
  */
 
 import com.badlogic.gdx.Gdx;
@@ -17,14 +17,14 @@ public class InputHandler implements InputProcessor {
 
     private GameWorld world;
     private List<SimpleButton> menuButtons;
-    private SimpleButton playButton,upLvlBut,downLvlBut;
+    private SimpleButton playButton, upLvlBut, downLvlBut, musicButton;
 
     public InputHandler(GameWorld world) {
         this.world = world;
         menuButtons = new ArrayList<SimpleButton>();
         playButton = new SimpleButton(
                 170 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
-                 180, 29, 16, AssetLoader.playButtonUp,
+                180, 29, 16, AssetLoader.playButtonUp,
                 AssetLoader.playButtonDown);
         upLvlBut = new SimpleButton(
                 170 - (AssetLoader.upLvl.getRegionWidth() / 2),
@@ -34,9 +34,11 @@ public class InputHandler implements InputProcessor {
                 170 - (AssetLoader.downLvl.getRegionWidth() / 2),
                 100, 10, 10, AssetLoader.downLvl,
                 AssetLoader.downLvl);
+        musicButton = new SimpleButton(120, 180, 20, 20, AssetLoader.buttonMusic, AssetLoader.buttonMusic);
         menuButtons.add(downLvlBut);
         menuButtons.add(playButton);
         menuButtons.add(upLvlBut);
+        menuButtons.add(musicButton);
     }
 
     @Override
@@ -46,16 +48,22 @@ public class InputHandler implements InputProcessor {
         Gdx.app.log("InputHandler", "" + screenY);
         if (world.isMenu()) {
 
-            //AssetLoader.fon.play();
+            AssetLoader.fon.play();
+            AssetLoader.fon.setLooping(true);
             world.start();
         }
-        if (world.isRunning()){
-            if(playButton.isClicked(screenX, screenY))
+        if (world.isRunning()) {
+            if (playButton.isClicked(screenX, screenY))
                 world.restart();
-            else if(downLvlBut.isClicked(screenX,screenY))
+            else if (downLvlBut.isClicked(screenX, screenY))
                 world.downLvl();
-            else if(upLvlBut.isClicked(screenX,screenY))
+            else if (upLvlBut.isClicked(screenX, screenY))
                 world.upLvl();
+            else if (musicButton.isClicked(screenX, screenY))
+                if (AssetLoader.fon.isPlaying())
+                    AssetLoader.fon.pause();
+                else
+                    AssetLoader.fon.play();
         }
         if (world.isGameOver())
             world.restart();
@@ -64,9 +72,9 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        Gdx.app.log("InputHandler", "keydown"+keycode);
-        //if(keycode == 20)
-        //    AssetLoader.down.play();
+        Gdx.app.log("InputHandler", "keydown" + keycode);
+        if(keycode == 20)
+            AssetLoader.down.play();
         world.getCurFigure().onKeyDown(keycode);
         return false;
     }
