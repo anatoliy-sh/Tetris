@@ -8,6 +8,7 @@ import pi4.gameworld.figures.L;
 import pi4.gameworld.figures.S;
 import pi4.gameworld.figures.Z;
 import pi4.gameworld.figures.I;
+import pi4.handlers.AssetLoader;
 
 import java.util.Random;
 
@@ -111,7 +112,7 @@ public class GameWorld {
     }
 
     private void destroyLine(int jLine) {
-
+        AssetLoader.line.play();
         for (int i = 0; i < CountCellX; i++) {
             bmap[i][jLine] = 0;
         }

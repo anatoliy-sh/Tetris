@@ -55,11 +55,11 @@ public class GameRenderer {
     private void createMap() {
         for (int i = 0; i < GameWorld.CountCellX; i++)
             for (int j = 0; j < GameWorld.CountCellY; j++) {
-                map[i][j] = new Cell(Color.WHITE);
+                map[i][j] = new Cell(AssetLoader.cell,Color.WHITE);
             }
         for (int i = 0; i < COUNTNEXT; i++)
             for (int j = 0; j < COUNTNEXT; j++) {
-                nextFigure[i][j] = new Cell(Color.WHITE);
+                nextFigure[i][j] = new Cell(AssetLoader.cell,Color.WHITE);
             }
     }
 

@@ -11,23 +11,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-	public static Texture texture, logoTexture;
+	public static Texture texture, logoTexture,cell;
 	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
 			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			ready, gameOver, highScore, scoreboard, star, noStar, retry;
+			ready, highScore, scoreboard, star, noStar, retry;
 	public static Animation birdAnimation;
-	public static Sound dead, flap, coin, fall;
+	public static Sound line, gameOver, down, fall;
 	public static BitmapFont font, shadow, whiteFont;
 	private static Preferences prefs;
 
 	public static void load() {
 
-		//dead = Gdx.audio.newSound(Gdx.files.internal("core/data/dead.wav"));
-		//flap = Gdx.audio.newSound(Gdx.files.internal("core/data/flap.wav"));
-		//coin = Gdx.audio.newSound(Gdx.files.internal("core/data/coin.wav"));
+		line = Gdx.audio.newSound(Gdx.files.internal("core/data/line.wav"));
+		gameOver = Gdx.audio.newSound(Gdx.files.internal("core/data/game_over.wav"));
+		down = Gdx.audio.newSound(Gdx.files.internal("core/data/down.wav"));
 		//fall = Gdx.audio.newSound(Gdx.files.internal("core/data/fall.wav"));
+		
 		texture = new Texture(Gdx.files.internal("core/data/texture.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+		cell = new Texture(Gdx.files.internal("core/data/cell.png"));
 
 		playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
 		playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
@@ -64,11 +67,10 @@ public class AssetLoader {
 		// We must dispose of the texture when we are finished.
 		//texture.dispose();
 
-		// Dispose sounds
-		//dead.dispose();
-		//flap.dispose();
-		//coin.dispose();
-
+		line.dispose();
+		gameOver.dispose();
+		down.dispose();
+		cell.dispose();
 		font.dispose();
 		shadow.dispose();
 	}

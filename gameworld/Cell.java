@@ -14,9 +14,9 @@ public class Cell {
 
     Sprite sprite;
 
-    public Cell(/*Texture texture,*/ Color color){
+    public Cell(Texture texture, Color color){
         this.color = color;
-        sprite = new Sprite(new Texture(Gdx.files.internal("core/data/cell.png")));//texture
+        sprite = new Sprite(texture);//texture
         sprite.setColor(color);
         sprite.setSize(9, 9);
 
