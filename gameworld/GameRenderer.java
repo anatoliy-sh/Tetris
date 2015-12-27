@@ -133,6 +133,7 @@ public class GameRenderer {
     }
 
     private void drawGameOver() {
+        AssetLoader.gameOver.play();
         int length = ("" + "GameOver").length();
         AssetLoader.shadow.draw(batcher, "" + "GameOver",
                 68 - (3 * length), 150 - 82);

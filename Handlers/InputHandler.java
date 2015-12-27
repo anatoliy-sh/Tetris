@@ -34,6 +34,7 @@ public class InputHandler implements InputProcessor {
         Gdx.app.log("InputHandler", "touchDown");
         if (world.isMenu()) {
             playButton.isClicked(screenX, screenY);
+            AssetLoader.fon.play();
             world.start();
         }
         return true;
@@ -42,7 +43,8 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         Gdx.app.log("InputHandler", "keydown"+keycode);
-
+        if(keycode == 20)
+            AssetLoader.down.play();
         world.getCurFigure().onKeyDown(keycode);
         return false;
     }
